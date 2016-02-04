@@ -1,0 +1,1 @@
+This framework is for use on anything from a small public facing website to a large web-based application.  After pulling the content from the git repo, create a branch of the framework to be used for the app development.  Updates to the framework can then be merged to the app branch.

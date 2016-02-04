@@ -1,0 +1,1 @@
+<span style="color: red; margin-left: 10px;"><?php echo $error;  ?></span>

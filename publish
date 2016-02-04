@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd ~/Sites/buildcommand
+
+
+if ["$1" == "test"]; then
+	echo "Testing publish to Aptitude server"
+
+	rsync -avuczpn --exclude .git --exclude .gitignore --exclude publish --exclude App/Configs/database.php --exclude .development ~/Sites/buildcommand/ aptitud5@aptitudeit.net:~/public_html/buildcommand/
+
+else
+
+echo "Publishing to Bluehost"
+rsync -avzp --exclude .git --exclude .gitignore --exclude publish --exclude .development --exclude App/Configs/database.php ~/Sites/buildcommand/ aptitue1@aptitudeit.org:~/public_html/buildcommand/
+
+echo "Done!"
+
+fi

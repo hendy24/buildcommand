@@ -1,0 +1,45 @@
+body {
+	margin: 10mm 25mm 75mm 25mm;
+	padding: 0;
+}
+
+.float-right {
+	float: right;
+}
+
+.text-right {
+	text-align: right;
+}
+
+h1 {
+	font-size: 22px;
+	text-align: center;
+}
+
+#content {
+	margin: auto;
+	width: auto;
+}
+
+table th {
+	background-color: #e1e1e1;
+	height: 25px;
+	font-size: 18px;
+	line-height: 2em;
+}
+
+table tr {
+	border-collapse: collapse;
+}
+
+table td.divider-row {
+	border-bottom: 1px solid #ccc;
+	
+}
+
+#copyright {
+	width: 800px;
+	margin: 25px auto;
+	font-size: 10px;
+	text-align: right;
+}

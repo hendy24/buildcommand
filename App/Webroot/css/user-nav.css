@@ -1,0 +1,122 @@
+/****************** Dropdown Menu styling starts here **************/
+div#nav {
+	position: absolute;
+	top: 75px;
+	right: 25px;
+	text-align: right;
+	z-index: 51;
+}
+
+div#nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: right;
+}
+
+div#nav ul li {
+	width: auto;
+	margin: 0px 0px 0px 5px;
+	padding: 4px 8px 4px 8px;
+	display: block;
+	float: left;
+	color: #fff;
+	font-size: 14px;
+	background: #0b5087;
+	background: -moz-linear-gradient(#4c81b3, #0b5087);
+	background: -webkit-gradient(linear, left top, right bottom, from(#4c81b3), to(#0b5087));
+	background: -webkit-linear-gradient(#4c81b3, #0b5087);
+	background: -o-linear-gradient(#4c81b3, #0b5087);
+	background: -ms-linear-gradient(#4c81b3, #0b5087);
+	background: linear-gradient(#4c81b3, #0b5087);
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	border: none;
+	outline: none;
+	font-weight: normal;
+
+}
+
+div#nav ul li:hover {
+	background: #ec9236;
+	background: -moz-linear-gradient(#f4c18e, #ec9236);
+	background: -webkit-gradient(linear, left top, right bottom, from(#f4c18e), to(#ec9236));
+	background: -webkit-linear-gradient(#f4c18e, #ec9236);
+	background: -o-linear-gradient(#f4c18e, #ec9236);
+	background: -ms-linear-gradient(#f4c18e, #ec9236);
+	background: linear-gradient(#f4c18e, #ec9236);
+	border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+}
+
+div#nav ul li a {
+	color: #fff;
+	text-decoration: none;
+}
+
+div#nav ul li:hover a {
+	font-weight: normal;
+/* 	color: #eeeeee; */
+}
+
+div#nav ul li ul {
+	position: absolute;
+	left: -999em;
+	z-index: 100;
+	float: none;
+}
+
+div#nav ul li ul li {
+	text-align: left;
+	position: relative;
+	width: auto;
+	height: 20px;
+	color: #333;
+}
+
+#nav ul li ul li a, div#nav ul li ul li a:visited {
+/* 	color: #4c81b3; */
+	color: #333;
+}
+
+div#nav ul li ul li a:hover {
+	font-weight: bold;
+	color: #ec9236;
+}
+
+div#nav ul li ul li:hover {
+	background: none;
+}
+
+/* this section controls the display location of the dropdown */
+div#nav li:hover ul {
+	position: absolute;
+	left: auto;
+	margin: 4px 0;
+	padding: 5px 10px 0px 10px;
+	background-color: #fff;
+	border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-right-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	box-shadow: 15px 15px 10px 2px rgba(0,0,0,.5);
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	border-bottom: 1px solid #333;
+	width: 210px;
+}
+
+div#nav ul li ul li {
+	margin-bottom: 5px;
+	padding: 5px 5px;
+	display: block;
+	float: none;
+	background: none;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 12px;
+}
