@@ -1,7 +1,7 @@
 <?php
 
 /*
- *	All other classes will extend the MainController, so use functions here that need to be 
+ *	All other classes will extend the MainController, so use functions here that need to be
  *	used in all other controllers.
  *
  */
@@ -16,7 +16,7 @@ class MainController {
 	protected $template = 'default';
 	protected $helper = null;
 	protected $title = null;
-	
+
 
 	/*
 	 * -------------------------------------------------------------------------
@@ -24,7 +24,7 @@ class MainController {
 	 * -------------------------------------------------------------------------
 	 */
 
-	public function __construct() {			
+	public function __construct() {
 		// Load any other components defined in the child class
 		if (!empty($this->components)) {
 			foreach($this->components as $c) {
@@ -46,7 +46,7 @@ class MainController {
 			$model = getModelName(input()->page);
 			$class = $this->loadModel($model, input()->id);
 
-			// $class->public_id = input()->id;			
+			// $class->public_id = input()->id;
 			if ($class->delete()) {
 				return true;
 			}
@@ -57,24 +57,24 @@ class MainController {
 		return false;
 	}
 
-	
 
 
 
-	
+
+
 	/*
 	 *
 	 * -------------------------------------------------------------
 	 *  LOAD MODELS, VIEWS, PLUGINS, COMPONENTS, AND HELPERS
 	 * -------------------------------------------------------------
-	 * 
+	 *
 	 */
 
-	
+
 	public function loadModel($name, $id = false) {
 		if (file_exists (APP_DIR . DS . 'Models' . DS . $name . '.php')) {
-			require_once (APP_DIR . DS . 'Models' . DS . $name . '.php');		
-		} 
+			require_once (APP_DIR . DS . 'Models' . DS . $name . '.php');
+		}
 
 		if (class_exists($name)) {
 			$class = new $name;
@@ -88,13 +88,14 @@ class MainController {
 			return $class->fetchById($id);
 		} else {
 			//  This is an empty object, get the column names
-			return $class->fetchColumnNames();			
+			return $class->fetchColumnNames();
 		}
-		
+
 	}
 
-
-
+	public function load($name, $id = false) {
+		return $this->loadModel($name, $id);
+	}
 
 
 	/*
@@ -107,23 +108,23 @@ class MainController {
 	 *
 	 */
 
-	public function loadView($folder, $name, $module = '') {	
+	public function loadView($folder, $name, $module = '') {
 		smarty()->assign('currentUrl', SITE_URL . $_SERVER['REQUEST_URI']);
 
 		//	Make sure the session is valid and get the user info
-		//	Re-direction is failing here, for some reason we are not passing the 
+		//	Re-direction is failing here, for some reason we are not passing the
 		//	auth()->isLoggedIn() test
 
 		if (!auth()->isLoggedIn()) {
 			if ($folder != 'login' && $folder != "site") {
 				$this->redirect(array('page' => 'login', 'action' => 'logout'));
-			} 
-		} 
+			}
+		}
 
 		// Load any info from AppController
 		$appController = new AppController;
 		$appController->siteData();
-		
+
 		if ($this->helper != null) {
 			$helper = $this->loadHelper($this->helper, $this->module);
 			smarty()->assignByRef($helper, $helper);
@@ -134,7 +135,7 @@ class MainController {
 
 		// Check session for errors to be displayed
 		session()->checkFlashMessages();
-		
+
 		//	If is_micro is set in the url then display a blank template
 		if (isset (input()->isMicro) && input()->isMicro == 1) {
 			$this->template = 'blank';
@@ -142,7 +143,7 @@ class MainController {
 
 		if ($this->content != "") {
 			$name = $this->content;
-		} 
+		}
 
 		if (file_exists (VIEWS . DS . underscore_string($folder) . DS . $name . '.tpl')) {
 			smarty()->assign('content', underscore_string($folder) . '/' . $name . '.tpl');
@@ -158,7 +159,7 @@ class MainController {
 
 		// set the base template
 		smarty()->display("layouts/{$this->template}.tpl");
-		
+
 	}
 
 
@@ -170,7 +171,7 @@ class MainController {
 	 *  LOAD AN ELEMENT
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function loadElement($name) {
 		$obj = new PageController();
 		$element = $obj->element($name);
@@ -185,11 +186,11 @@ class MainController {
 	 *  LOAD A PLUGIN
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function loadPlugin($name) {
 		if (file_exists (PROTECTED_DIR . '/plugins/' . $name . '.php')) {
 			require (PROTECTED_DIR . '/plugins/' . $name . '.php');
-		} 
+		}
 	}
 
 
@@ -200,13 +201,13 @@ class MainController {
 	 *  LOAD A HELPER -- this is a view helper
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function loadHelper($name, $module = null) {
 		if (file_exists (APTITUDE_CORE . '/Views/helpers/' . $name . 'Helper.php')) {
 			require (APTITUDE_CORE . '/Views/helpers/' . $name . 'Helper.php');
 		} elseif (file_exists (APP_DIR . DS . 'Views/helpers/' . $name . 'Helper.php')) {
 			require (APP_DIR . '/Views/helpers/' . $name . 'Helper.php');
-		} 
+		}
 
 		$className = $name . 'Helper';
 		$helper = new $className;
@@ -221,12 +222,12 @@ class MainController {
 	 *  LOAD A COMPONENT CLASS
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function loadComponent($name) {
 		$component = new $name;
 		return $component;
 	}
-	
+
 
 
 	/*
@@ -234,15 +235,15 @@ class MainController {
 	 *  LOAD AN ALTERNATE TEMPLATE TO USE
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	// public function template($name = false) {
 	// 	global $config;
 	// 	if ($name) {
 	// 		$config['main_template'] = $name.'.tpl';
 	// 	}
-		
+
 	// }
-	
+
 
 
 	/*
@@ -250,32 +251,32 @@ class MainController {
 	 *  SET A VARIABLE TO BE LOADED WITH THE CLASS
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function set($name, $var) {
 		$this->$name = $var;
 	}
-	
-	
 
 
 
 
-			
+
+
+
 	/*
 	 *
 	 * -------------------------------------------------------------
 	 *  PAGE REDIRECTION
 	 * -------------------------------------------------------------
 	 */
-		
-	public function redirect($params = false) {	
 
-		if (is_array($params)) {	
+	public function redirect($params = false) {
+
+		if (is_array($params)) {
 				$redirect_url = SITE_URL . "/?";
 
 				if (isset ($params['page'])) {
 					$params['page'] =  strtolower(preg_replace('/([^A-Z-])([A-Z])/', '$1-$2', $params['page']));
-				} 
+				}
 
 				if (isset ($params['action'])) {
 					if ($params['action'] == 'index') {
@@ -294,28 +295,28 @@ class MainController {
 		}
 
 		$this->redirectTo($redirect_url);
-		
-	}	
-	
+
+	}
+
 	private function redirectTo($url) {
 		header("Location: " . $url);
 		exit;
 	}
-		
-	
 
 
 
 
-	
+
+
+
 	/*
 	 *
 	 * -------------------------------------------------------------
 	 *  VALIDATE DATA
 	 * -------------------------------------------------------------
-	 * 
+	 *
 	 */
-	 
+
 	 protected function validateData($dataArray = array(), $flash_message = false, $redirect_to = false) {
 	 	$fail = false;
 		$returnData = array();
@@ -331,30 +332,30 @@ class MainController {
 				}
 			}
 		}
-		
+
 		if ($fail) {
 			exit;
 		}
-		
-		return $returnData;		
+
+		return $returnData;
 
 	 }
-	
-	
 
 
 
-	
+
+
+
 	/*
 	 *
 	 * -------------------------------------------------------------
 	 *  Looks in a folder and returns the contents
 	 * -------------------------------------------------------------
-	 * 
+	 *
 	 * This method is especially useful for folders with photos (i.e. - for the slideshow on the home page)
 	 *
 	 */
-	
+
 	protected function directoryToArray($directory, $recursive) {
 	    $array_items = array();
 	    if ($handle = opendir($directory)) {
@@ -377,20 +378,20 @@ class MainController {
 		    echo "<br />Make sure $directory exists and try again.";
 		    exit;
 	    }
-	    
+
 	    foreach ($array_items as $item) {
 		    $explodedArray[] = (explode('/', $item));
 	    }
-	    
+
 	    foreach ($explodedArray as $a) {
 		    $filteredArray[] = array_pop($a);
 
 	    }
-	    
+
 	    return $filteredArray;
 	}
-		
-	
+
+
 
 
 	public function getColumnHeaders($data, $class = null) {
@@ -407,45 +408,45 @@ class MainController {
 				}
 			}
 		}
-		
+
 
 		return $data;
 	}
-	
-	
-	
 
 
-	
+
+
+
+
 	/*
 	 * -------------------------------------------------------------
 	 *  PHPMailer -- send emails
 	 * -------------------------------------------------------------
-	 * 
+	 *
 	 */
-	 
+
 	public function sendEmail($data) {
-		
+
 		global $config;
 		global $params;
-		
+
 		$mail = new PHPMailer(true);
 		$mail->IsSMTP();
-		
+
 		/**
 		 * These mail settings are specific to bluehost
 		 */
-		
-		
-		try {				
-			$mail->SMTPDebug = 2;                    
-			$mail->SMTPAuth = true;    
-			$mail->SMTPSecure = "ssl";              
-			$mail->Host = $config['email_host'];  // email must be sent from server for bluehost 
-			$mail->Port = 465;                   
-			$mail->Username = $config['email_username'];  
-			$mail->Password = $config['email_password'];       
-			$mail->SetFrom($data['post']['email'], $data['post']['name']);    
+
+
+		try {
+			$mail->SMTPDebug = 2;
+			$mail->SMTPAuth = true;
+			$mail->SMTPSecure = "ssl";
+			$mail->Host = $config['email_host'];  // email must be sent from server for bluehost
+			$mail->Port = 465;
+			$mail->Username = $config['email_username'];
+			$mail->Password = $config['email_password'];
+			$mail->SetFrom($data['post']['email'], $data['post']['name']);
 			$mail->AddAddress($config['email_to']);
 			$mail->Subject = $params['site_name'] . ' Message: ' . $data['post']['subject'];
 			$mail->Body = $data['post']['message_body'];

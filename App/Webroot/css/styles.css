@@ -53,7 +53,7 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	background: url(../images/background.png) #333 repeat;
+	background-color: #444;
 }
 
 body, td, th {
@@ -107,7 +107,7 @@ th {
 }
 
 td {
-	padding: 15px;	
+	padding: 15px;
 }
 
 
@@ -250,6 +250,10 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	background-color: #444;
 }
 
+.styled-select {
+	font-size: 14px;
+	padding: 5px;
+}
 
 h1 {
 	margin: 25px;
@@ -278,7 +282,7 @@ h2 {
 	background: #fff;
 	margin: 15px auto;
 	border: 2px solid #d9d9d9;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 #header {
@@ -369,10 +373,10 @@ nav ul li {
 	border-right: 1px solid #ccc;
 	border-left: 1px solid #ccc;
 	font-size: 14px;
-	border-top-left-radius: 3px;
-	-moz-border-radius-topleft: 3px;
-	border-top-right-radius: 3px;
-	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 2px;
+	-moz-border-radius-topleft: 2px;
+	border-top-right-radius: 2px;
+	-moz-border-radius-topright: 2px;
 }
 
 nav ul li:hover {
@@ -736,9 +740,9 @@ table td#wrench-menu {
  * -------------------------------------------------------------
  *  ERROR HANDLING
  * -------------------------------------------------------------
- * 
+ *
  */
- 
+
 #flash-messages {
 	position: relative;
 	margin: 20px auto;
@@ -845,7 +849,7 @@ nav ul li:hover a {
 }
 
 #estimate-nav a:hover {
-	color: #ec9236;	
+	color: #ec9236;
 	font-weight: 200;
 }
 
@@ -856,10 +860,10 @@ nav ul li:hover a {
  * -------------------------------------------------------------
  *  Highlight link for current page
  * -------------------------------------------------------------
- * 
+ *
  */
- 
- 
+
+
  div#general #general-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -871,12 +875,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#general #general-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#rough-structure #rough-structure-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -888,12 +892,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#rough-structure #rough-structure-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#mechanical #mechanical-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -905,13 +909,13 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
- 
+
+
  div#mechanical #mechanical-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#interior-exterior #interior-exterior-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -923,12 +927,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#interior-exterior #interior-exterior-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#exterior-finishes #exterior-finishes-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -940,12 +944,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#exterior-finishes #exterior-finishes-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#interior-finishes #interior-finishes-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -957,12 +961,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#interior-finishes #interior-finishes-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
  div#closing #closing-link {
 	 background: #ec9236;
 	 background: -moz-linear-gradient(#f09841, #ec9236);
@@ -974,12 +978,12 @@ nav ul li:hover a {
 	 padding: 0 10px;
 	 border-radius: 4px;
  }
- 
+
  div#closing #closing-link a {
 	 color: #f1f1f1;
 	 text-decoration: none;
  }
- 
+
 
 .icon-link {
 	width: 24px;
@@ -1049,88 +1053,88 @@ table.details tr td:last-child {
 
 
 /* General dropdown styles */
-.dropdown { 
-	position: relative; 
+.dropdown {
+	position: relative;
 	float: right;
 	top: -5px;
 	right: 15px;
-	z-index: 500; 
-	margin: 0; 
+	z-index: 500;
+	margin: 0;
 }
 
 .dropdown dl {
-	 margin-left: 0px; 
-	 position: relative; 
+	 margin-left: 0px;
+	 position: relative;
 }
 
-.dropdown dd, .dropdown dt, .dropdown ul { 
-	margin: 0px; 
-	padding: 0px; 
+.dropdown dd, .dropdown dt, .dropdown ul {
+	margin: 0px;
+	padding: 0px;
 	margin-left: 0px;
 }
 
-.dropdown dd { 
+.dropdown dd {
 	position:relative;
 }
 
 /* DT styles for sliding doors */
 .dropdown dt a {
 	background: url(../images/settings-reduced.png);
-    position: absolute; 
-    width:16px; 
-    height:16px; 
-    cursor: pointer; 
+    position: absolute;
+    width:16px;
+    height:16px;
+    cursor: pointer;
     margin: 0px 5px 0px 0px;
 }
 
 
 /* UL styles */
-.dropdown dd ul { 
-	background:rgba(40, 40, 40,0.75) none repeat scroll 0 0; 
-    list-style: none; 
-    padding: 3px 0; 
+.dropdown dd ul {
+	background:rgba(40, 40, 40,0.75) none repeat scroll 0 0;
+    list-style: none;
+    padding: 3px 0;
     display: none;
     position: absolute;
     margin: 20px 0 0 -50px;
-    width: auto; 
-    border: 1px solid #656565; 
-    cursor: pointer; 
-    z-index: 501; 
+    width: auto;
+    border: 1px solid #656565;
+    cursor: pointer;
+    z-index: 501;
     border-radius: 3px;
 }
 .dropdown dd ul li {
-	margin: 0; 
+	margin: 0;
 	width: 150px;
 }
 
-.dropdown span.value { 
+.dropdown span.value {
 	display:none;
 }
 
-.dropdown dd ul li a { 
-	display: block; 
-	font-weight: normal; 
-	font-style: normal; 
-	width: auto; 
-	text-align:left; 
-	overflow:hidden; 
-	padding: 1px 4px 1px 19px; 
+.dropdown dd ul li a {
+	display: block;
+	font-weight: normal;
+	font-style: normal;
+	width: auto;
+	text-align:left;
+	overflow:hidden;
+	padding: 1px 4px 1px 19px;
 	margin: 2px 5px;
-	color:#ffffff; 
-	text-decoration:none; 
-	font-size: 12px; 
-	line-height: 1.5em; 
+	color:#ffffff;
+	text-decoration:none;
+	font-size: 12px;
+	line-height: 1.5em;
 }
 
-.dropdown dd ul li a:hover { 
-	background-color: #e8e8e8; 
+.dropdown dd ul li a:hover {
+	background-color: #e8e8e8;
 	border-radius: 2px;
-	color: #333; 
-	text-decoration: none; 
+	color: #333;
+	text-decoration: none;
 }
 
-.dropdown dd ul li a:visited { 
-	text-decoration:none; 
+.dropdown dd ul li a:visited {
+	text-decoration:none;
 }
 
 

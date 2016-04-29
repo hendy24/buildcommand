@@ -2,11 +2,19 @@
 
 class ProjectsController extends AppController {
 
+/*
+ * -----------------------------------------------------------------------------
+ * MAIN PROJECTS PAGE
+ * -----------------------------------------------------------------------------
+ * This is the main landing page after logging in from which all projects
+ * can be accessed.
+ *
+ */
 	public function index() {
 		$helper = $this->loadHelper('ToolMenu');
 		smarty()->assign('toolMenu', $helper);
-		$company = $this->loadModel('Company')->fetchCompany();
-		$projects = $this->loadModel('Project')->fetchProjects();
+		$company = $this->load('Company')->fetchCompany();
+		$projects = $this->load('Project')->fetchProjects();
 
 		smarty()->assignByRef('company', $company);
 		smarty()->assignByRef('projects', $projects);
@@ -16,19 +24,19 @@ class ProjectsController extends AppController {
 
 
 	public function manage() {
-		$project = $this->loadModel('Project', input()->id);
+		$project = $this->load('Project', input()->id);
 		$helper = $this->loadHelper('ToolMenu');
 		smarty()->assign('toolMenu', $helper);
 		smarty()->assignByRef('project', $project);
 
 		// Fetch Item Groups
-		$itemGroups = $this->loadModel('ItemGroup')->fetchItemGroupData($project->id);
+		$itemGroups = $this->load('ItemGroup')->fetchItemGroupData($project->id);
 
-		$margin = $this->loadModel('EstimateItem')->fetchBySectionItem($project->id, 86);
-		$contingency = $this->loadModel('EstimateItem')->fetchBySectionItem($project->id, 85);
+		$margin = $this->load('EstimateItem')->fetchBySectionItem($project->id, 86);
+		$contingency = $this->load('EstimateItem')->fetchBySectionItem($project->id, 85);
 
 		if (empty ($itemGroups)) {
-			$itemGroups = $this->loadModel('ItemGroup')->fetchAll();
+			$itemGroups = $this->load('ItemGroup')->fetchAll();
 			foreach ($itemGroups as $k => $i) {
 				$itemGroups[$k]->estimated_cost = "";
 				$itemGroups[$k]->actual_cost = "";
@@ -38,7 +46,7 @@ class ProjectsController extends AppController {
 		} else {
 			$totalEstimatedCost = null;
 			$totalActualCost = null;
-			foreach ($itemGroups as $k => $i) {	
+			foreach ($itemGroups as $k => $i) {
 				if ($itemGroups[$k]->description == "Closing") {
 					$itemGroups[$k]->estimated_cost = $itemGroups[$k]->estimated_cost + ($margin->estimated_cost + $contingency->estimated_cost);
 				}
@@ -55,15 +63,44 @@ class ProjectsController extends AppController {
 	}
 
 
+
+/*
+ * -----------------------------------------------------------------------------
+ * ADD A NEW PROJECT
+ * -----------------------------------------------------------------------------
+ * Creates a new project associated with the user who created it and the company
+ * with which the user is associated.
+ *
+ */
 	public function add() {
 		smarty()->assign('title', "Add new project");
-		$user = $this->loadModel('SiteUser', auth()->getRecord()->id);
+		$user = $this->load('User', auth()->getRecord()->id);
 
+		// get project classes
+		$class = $this->load('ProjectClass')->fetchAll();
+		$type = $this->load('ProjectType')->fetchAll();
+
+		smarty()->assign('class', $class);
+		smarty()->assign('type', $type);
 
 		// Form has been submitted
 		if (input()->is("post")) {
+			$project = $this->load('Project');
+			$project_class_type = $this->load('ProjectClassType');
 
-			$project = $this->loadModel("Project");
+			if (input()->class != "") {
+				$project_class_type->project_class_id = input()->class;
+			}
+
+			if (input()->type != "") {
+				$project_class_type->project_type_id = input()->type;
+			}
+
+			if ($project_class_type->save()) {
+				$project->class_type_id = $project_class_type->id;
+			} else {
+				// $error_message[] = "Could not save the project class and type.";
+			}
 
 			if (input()->name != "") {
 				$project->name = input()->name;
@@ -72,47 +109,54 @@ class ProjectsController extends AppController {
 			}
 
 			$project->company_id = $user->company_id;
-			$project->project_number = input()->project_number;
-			$project->owner_email = input()->owner_email;
-			$project->bank_email = input()->bank_email;
-
-			if (input()->payment_type != "") {
-				$project->payment_type = input()->payment_type;
-			} else {
-				$error_message[] = "Select a payment type for the project";
+			if (input()->owner_email != "") {
+				$project->owner_email = input()->owner_email;
+			}
+			if (input()->lender_email != "") {
+				$project->lender_email = input()->lender_email;
 			}
 
-			if (input()->payment_type == "cost_plus" && input()->margin == "") {
-				$error_message[] = "Enter the profit margin percentage";
+			if (input()->bid_type != "") {
+				$project->bid_type = input()->bid_type;
 			} else {
-				$project->margin = input()->margin;
+				$error_message[] = "Select a bid type for the project";
+			}
+
+			if (input()->margin != "") {
+				// need to make sure this number is a decimal percentage
+				if (strstr(input()->margin, ".")) {
+					$project->margin = input()->margin;
+				} else {
+					$project->margin = input()->margin / 100;
+				}
+
 			}
 
 			if (input()->contingency != "") {
-				$project->contingency = input()->contingency;
-			} else {
-				$error_message[] = "Enter the contingency percentage";
+				if (strstr(input()->contingency, ".")) {
+					$project->contingency = input()->contingency;
+				} else {
+					$project->contingency = input()->contingency / 100;
+				}
+
 			}
 
 			// Enter project square footages
-			$project->basement_sq_ft = input()->basement_sq_ft;
-			$project->main_floor_sq_ft = input()->main_floor_sq_ft;
-			$project->upper_floor_sq_ft = input()->upper_floor_sq_ft;
-			$project->garage_sq_ft = input()->garage_sq_ft;
+			$project->finished_sq_ft = input()->finished_sq_ft;
+			$project->unfinished_sq_ft = input()->unfinished_sq_ft;
 			$project->status = 'Pending';
-			
 
 			// Process the file upload
-			// If plan is attached set filename and upload to webroot/files folder		
+			// If plan is attached set filename and upload to webroot/files folder
 			if (isset ($_FILES['plan_filename']) && $_FILES['plan_filename']['name'] != '') {
 				if (preg_match ('/^application\/pdf$/i', $_FILES['plan_filename']['type'])) {
 					$filename = time() . '_' . $user->public_id . '.pdf';
-					$upload = ROOT . '/App/webroot/files/plans/' . $filename;				
+					$upload = ROOT . '/App/webroot/files/plans/' . $filename;
 				} else {
 					session()->setFlash("The house plan must be in a PDF format.", 'error');
 					$this->redirect(array('controller' => 'projects', 'action' => 'add'));
 				}
-							
+
 				if (is_uploaded_file($_FILES['plan_filename']['tmp_name'])) {
 					copy($_FILES['plan_filename']['tmp_name'], $upload);
 				}
@@ -127,11 +171,10 @@ class ProjectsController extends AppController {
 				$this->redirect(input()->path);
 			}
 
-
 			// If there were no errors... then save the new project
 			if ($project->save()) {
 				// save to site user projects so the user that created the project has access to it.
-				$this->loadModel('SiteUserProject')->searchExisting($user->id, $project->id);
+				$this->load('UserProject')->searchExisting($user->id, $project->id);
 
 				session()->setFlash("Successfully added new project", 'success');
 				$this->redirect(array('page' => 'projects'));
@@ -144,13 +187,21 @@ class ProjectsController extends AppController {
 
 
 
+
+/*
+ * -----------------------------------------------------------------------------
+ * EDIT PROJECT INFO
+ * -----------------------------------------------------------------------------
+ * Page to edit and make changes to project specific information.
+ *
+ */
 	public function edit() {
 		$this->title = "Edit project";
-		$user = $this->loadModel('SiteUser', auth()->getRecord()->id);
+		$user = $this->load('User', auth()->getRecord()->id);
 
 
 
-		$project = $this->loadModel('Project', input()->id);
+		$project = $this->load('Project', input()->id);
 		smarty()->assignByRef('project', $project);
 
 
@@ -191,19 +242,19 @@ class ProjectsController extends AppController {
 			$project->main_floor_sq_ft = input()->main_floor_sq_ft;
 			$project->upper_floor_sq_ft = input()->upper_floor_sq_ft;
 			$project->garage_sq_ft = input()->garage_sq_ft;
-			
+
 
 			// Process the file upload
-			// If plan is attached set filename and upload to webroot/files folder		
+			// If plan is attached set filename and upload to webroot/files folder
 			if (isset ($_FILES['plan_filename']) && $_FILES['plan_filename']['name'] != '') {
 				if (preg_match ('/^application\/pdf$/i', $_FILES['plan_filename']['type'])) {
 					$filename = time() . '_' . $user->public_id . '.pdf';
-					$upload = ROOT . '/App/webroot/files/plans/' . $filename;				
+					$upload = ROOT . '/App/webroot/files/plans/' . $filename;
 				} else {
 					session()->setFlash("The house plan must be in a PDF format.", 'error');
 					$this->redirect(array('controller' => 'projects', 'action' => 'add'));
 				}
-							
+
 				if (is_uploaded_file($_FILES['plan_filename']['tmp_name'])) {
 					copy($_FILES['plan_filename']['tmp_name'], $upload);
 				}
@@ -221,7 +272,7 @@ class ProjectsController extends AppController {
 
 			// If there were no errors... then save the new project
 			if ($project->save()) {
-				$this->loadModel('SiteUserProject')->searchExisting($user->id, $project->id);
+				$this->load('UserProject')->searchExisting($user->id, $project->id);
 
 				session()->setFlash("Successfully added new project", 'success');
 				$this->redirect(array('page' => 'projects'));
@@ -234,8 +285,17 @@ class ProjectsController extends AppController {
 
 
 
+
+/*
+ * -----------------------------------------------------------------------------
+ * ARCHIVE A PROJECT
+ * -----------------------------------------------------------------------------
+ * Archive a completed project. This is accessed from a wrench menu via an ajax
+ * call.
+ *
+ */
 	public function archive() {
-		$project = $this->loadModel('Project', input()->id);
+		$project = $this->load('Project', input()->id);
 		$project->status = input()->status;
 
 		if ($project->save()) {

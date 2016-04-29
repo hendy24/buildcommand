@@ -1,25 +1,25 @@
 <?php
 
-class SiteUserController extends MainController {
+class UsersController extends MainController {
 
 	public function add() {
 		$this->title = "Add a New User";
 		smarty()->assign('states', getUSAStates());
 		$user = auth()->getRecord();
-		
-		$groups = $this->loadModel('SiteUserGroup')->fetchAll();	
+
+		$groups = $this->loadModel('Group')->fetchAll();
 		smarty()->assign('groups', $groups);
-		
+
 		// Get available projects
 		$projects = $this->loadModel('Project')->fetchProjects();
-		smarty()->assignByRef('projects', $projects);	
-		smarty()->assign('states', getUSAStates());	
+		smarty()->assignByRef('projects', $projects);
+		smarty()->assign('states', getUSAStates());
 
-		smarty()->assign('editUser', $this->loadModel('SiteUser'));
-											
-		if (input()->is('post')) {	
+		smarty()->assign('editUser', $this->loadModel('User'));
+
+		if (input()->is('post')) {
 			// Instantiate new user
-			$newUser = $this->loadModel('SiteUser');
+			$newUser = $this->loadModel('User');
 
 
 			// Validate form inputs
@@ -43,23 +43,23 @@ class SiteUserController extends MainController {
 
 			if (input()->address != "") {
 				$newUser->address = input()->address;
-			} 
+			}
 
 			if (input()->city != "") {
 				$newUser->city = input()->city;
-			} 
+			}
 
 			if (input()->state != "") {
 				$newUser->state = input()->state;
-			} 
+			}
 
 			if (input()->zip != "") {
 				$newUser->zip = input()->zip;
-			} 
+			}
 
 			if (input()->phone != "") {
 				$newUser->phone = input()->phone;
-			} 
+			}
 
 			if (input()->email != "") {
 				$newUser->email = input()->email;
@@ -73,7 +73,7 @@ class SiteUserController extends MainController {
 				} else {
 					$error_message[] = "The passwords do not match";
 				}
-				
+
 			} else {
 				$error_message[] = "Enter the new users first name";
 			}
@@ -99,13 +99,13 @@ class SiteUserController extends MainController {
 				// Give user access to selected project(s)
 				if (is_array(input()->project)){
 					foreach (input()->project as $p) {
-						$userProject = $this->loadModel('SiteUserProject');
+						$userProject = $this->loadModel('UserProject');
 						$userProject->user_id = $user_id;
 						$userProject->project_id = input()->project;
 						$userProject->save();
 					}
 				} else {
-					$userProject = $this->loadModel('SiteUserProject');
+					$userProject = $this->loadModel('UserProject');
 					$userProject->user_id = $user_id;
 					$userProject->project_id = input()->project;
 					$userProject->save();
@@ -133,58 +133,58 @@ class SiteUserController extends MainController {
 	public function edit() {
 		$this->title = "Edit User";
 		$this->content = "add";
-		
+
 		if (input()->id == "") {
 			session()->setFlash("Could not find the user.", 'error');
 			$this->redirect(input()->path);
-		} 
-			
-		$editUser = $this->loadModel('SiteUser', input()->id);
+		}
+
+		$editUser = $this->loadModel('User', input()->id);
 		smarty()->assignByRef('editUser', $editUser);
 
 		smarty()->assign('states', getUSAStates());
 		$user = auth()->getRecord();
-		
-		$groups = $this->loadModel('Group')->fetchAll();						
+
+		$groups = $this->loadModel('Group')->fetchAll();
 		smarty()->assign('groups', $groups);
-		
+
 		// Get available projects
 		$projects = $this->loadModel('Project')->fetchProjects();
-		smarty()->assignByRef('projects', $projects);	
-		smarty()->assign('states', getUSAStates());	
+		smarty()->assignByRef('projects', $projects);
+		smarty()->assign('states', getUSAStates());
 
 		if (input()->is('post')) {
-			
+
 		}
 	}
- 	
- 	
- 	
- 	
- 	
+
+
+
+
+
  	/*
  	 * -------------------------------------------------------------
  	 *  REGISTRATION PAGE
  	 * -------------------------------------------------------------
- 	 * 
+ 	 *
  	 */
  	public function register() {
-	 	
+
 	 	$this->set('states', $this->states());
-	 		 	
+
 	 	if ($this->request->is('post')) {
 
 	 	}
  	}
- 	
- 	
+
+
  	/*
  	 * -------------------------------------------------------------
  	 *  USERNAME VALIDATION
  	 * -------------------------------------------------------------
- 	 * 
+ 	 *
  	 */
- 	 
+
  	public function validate_form() {
 	}
 
@@ -210,7 +210,7 @@ class SiteUserController extends MainController {
  */
 
 	public function account_info() {
-		$accountUser = $this->loadModel('SiteUser', auth()->getRecord()->id);
+		$accountUser = $this->loadModel('User', auth()->getRecord()->id);
 
 		smarty()->assign('states', getUSAStates());
 		smarty()->assign('accountUser', $accountUser);
@@ -231,19 +231,19 @@ class SiteUserController extends MainController {
 
 			if (input()->address != "") {
 				$accountUser->address = input()->address;
-			} 
+			}
 
 			if (input()->city != "") {
 				$accountUser->city = input()->city;
-			} 
+			}
 
 			if (input()->zip != "") {
 				$accountUser->zip = input()->first_name;
-			} 
+			}
 
 			if (input()->phone != "") {
 				$accountUser->phone = input()->phone;
-			} 
+			}
 
 			if (input()->email != "") {
 				$accountUser->email = input()->email;
@@ -262,26 +262,26 @@ class SiteUserController extends MainController {
 			}
 		}
 	}
-	
+
 
 	public function manage() {
 		// Only allow access to administrators
 		if (!auth()->is_admin()) {
-			session()->setFlash("You do not have the correct permissions to access the manage site_user page.", 'error');
+			session()->setFlash("You do not have the correct permissions to access the manage user page.", 'error');
 			$this->redirect();
 		}
 
 		// Fetch user list for the company
-		$users = $this->loadModel('SiteUser')->fetchAllByCompanyId();
+		$users = $this->loadModel('User')->fetchAllByCompanyId();
 		smarty()->assignByRef('users', $users);
-		$this->title = "Manage site_user";
+		$this->title = "Manage Users";
 	}
 
 
 	// Change password
 	public function change_password() {
 
-		$editUser = $this->loadModel('SiteUser', input()->id);
+		$editUser = $this->loadModel('User', input()->id);
 		smarty()->assign('editUser', $editUser);
 
 		if (input()->is('post')) {
@@ -298,13 +298,13 @@ class SiteUserController extends MainController {
 			if (empty ($error_message)) {
 				if ($editUser->save()) {
 					session()->setFlash("The password was successfully changed", 'success');
-					$this->redirect(array('page' => 'site_user', 'action' => 'manage'));
+					$this->redirect(array('page' => 'users', 'action' => 'manage'));
 				}
 			} else {
 				session()->setFlash($error_message, 'error');
-			}	
+			}
 		}
 	}
- 	
+
 
 }

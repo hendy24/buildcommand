@@ -18,11 +18,11 @@
  -->	</li>
 	<li>Data
 		<ul>
-			<li><a href="/?page=site_user&amp;action=account_info">My Info</a></li>
+			<li><a href="/?page=users&amp;action=account_info">My Info</a></li>
 			{if $auth->is_admin()}
 				<li><a href="/?page=company">Company Info</a></li>
-				<li><a href="/?page=site_user&amp;action=add">Add User</a></li>
-				<li><a href="/?page=site_user&amp;action=manage">Manage Users</a></li>
+				<li><a href="/?page=users&amp;action=add">Add User</a></li>
+				<li><a href="/?page=users&amp;action=manage">Manage Users</a></li>
 			{/if}
 		</ul>
 </ul>

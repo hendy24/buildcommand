@@ -6,13 +6,16 @@ class Project extends AppModel {
 
 
 	public function fetchProjects($filter = false) {
-		$sql = "SELECT * FROM {$this->table} INNER JOIN site_user_project ON site_user_project.project_id = {$this->table}.id WHERE {$this->table}.status != 'Completed' AND {$this->table}.status != 'Lost' AND site_user_project.user_id = :user_id";
+		$user_project = $this->loadTable('UserProject');
+		$sql = "SELECT * FROM {$this->table} p INNER JOIN {$user_project->tableName()}
+			up ON up.project_id = p.id WHERE p.status != 'Completed' AND p.status !=
+			'Lost' AND up.user_id = :user_id";
 
 		if ($filter) {
-			$sql .= " AND {$this->table}.status = :filter";
+			$sql .= " AND p.status = :filter";
 			$params[":filter"] = $filter;
 		}
-		$sql .= " ORDER BY {$this->table}.name ASC";
+		$sql .= " ORDER BY p.name ASC";
 
 		$params[":user_id"] = auth()->getRecord()->id;
 

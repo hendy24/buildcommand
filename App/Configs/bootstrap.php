@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 /*
  *	Set site directories
  */
 
- 	
+
 	define('CSS', SITE_URL . DS . 'css');
 	define('IMAGES', SITE_URL . DS . 'images');
 	define('JS', SITE_URL . DS . 'js');
@@ -18,14 +18,14 @@
 	define('FRAMEWORK_IMAGES', FRAMEWORK_URL . DS . 'images');
 	define('FRAMEWORK_JS', FRAMEWORK_URL . DS . 'js');
 
-	
+
 
 /*
  * Error Reporting
  *
  */
- 
- 	set_error_handler('_exeption_handler');
+
+ 	//set_error_handler('_exeption_handler', E_STRICT);
 
  	if (file_exists(ROOT . DS . '.development')) {
  		define(DEVELOPMENT, true);
@@ -36,15 +36,18 @@
 	 	ini_set('html_errors', 'off');
 	 	ini_set('display_errors', 'off');
  	}
-	
-	
+
+
+// set timezone
+date_default_timezone_set('America/Boise');
+
 /*
  * -------------------------------------------
  * INCLUDE ALL REQUIRED FILES
  * -------------------------------------------
  *
- */	
- 	
+ */
+
  	//require_once(FRAMEWORK_PROTECTED_DIR . DS . 'Vendors/Smarty-3.1.19/Libraries/Smarty.class.php');
  	require(APTITUDE_CORE . DS . 'Controllers' . DS . 'MainController.php');
  	require(APTITUDE_CORE . DS . 'Models' . DS . 'MainModel.php');
@@ -54,11 +57,11 @@
  	require(APTITUDE_CORE . DS . 'Libraries/Common.php');
  	require(APTITUDE_CORE . DS . 'Libraries/Authentication.php');
  	require_once(APTITUDE_CORE . DS . 'Libraries' . DS .'MySqlDb.php');
-  	require_once(APTITUDE_CORE . DS . 'Configs/config.php');  
-  	require_once(APP_DIR . DS . 'Configs/database.php');  	
-  	
+  	require_once(APTITUDE_CORE . DS . 'Configs/config.php');
+  	require_once(APP_DIR . DS . 'Configs/database.php');
+
   	spl_autoload_register('__autoload');
- 	
+
  	function __autoload($className) {
 	 	// list of directories to scan
 		$dirs = array(
@@ -72,9 +75,9 @@
 			APP_DIR . DS . 'Helpers/',
 			APP_DIR . DS . 'Models/',
 		);
-		
 
-		// if the file exists in any of the defined directories, require it...	
+
+		// if the file exists in any of the defined directories, require it...
 		foreach ($dirs as $d) {
 			if (file_exists("{$d}/{$className}.php")) {
 				require_once ("{$d}/{$className}.php");
@@ -84,28 +87,28 @@
 				require_once ("{$d}/{$className}Component.php");
 			} elseif (file_exists("{$d}/{$className}Helper.php")) {
 				require_once ("{$d}/{$className}Helper.php");
-			} 
+			}
 		}
-		
-		
+
+
  	}
 
-	
-	
-		
+
+
+
 /*
  * -------------------------------------------
  * Instantiate Smarty
  * -------------------------------------------
  *
  */
- 
+
 	$smarty = new Smarty();
 	$smarty->setTemplateDir(APP_DIR . DS . 'Views')
 		->setCompileDir(APP_DIR . DS . 'Compile')
 		->setCacheDir(APP_DIR . DS . 'Cache')
 		->setConfigDir(APP_DIR . DS . 'ViewConfigs');
-	
+
 	$smarty->assign(array(
 		'APP_NAME' => APP_NAME,
 		'COMPANY_NAME' => COMPANY_NAME,
@@ -122,26 +125,26 @@
 		'VIEWS' => VIEWS,
 		'flashMessages' => ''
 	));
-	
-	
-		
+
+
+
 	$smarty->escape_html = true;
- 
+
 /*
  * Include any additional variables to be available globally
- * 
+ *
  */
- 
+
  	$error_messages = array();
  	global $error_messages;
- 	
+
  	$success_messages = array();
  	global $success_messages;
- 	
+
  	// Instantiate classes
-	
-	
-	
+
+
+
 	if (! function_exists('db')) {
 		function db() {
 			global $db;
@@ -158,10 +161,10 @@
 			global $session;
 			return $session;
 		}
-	} 
+	}
 	$smarty->assignByRef('session', $session);
 
-	
+
 	$auth = Authentication::getInstance();
 	if (! function_exists('auth')) {
 		function auth() {
@@ -169,7 +172,7 @@
 			return $auth;
 		}
 	}
-	
+
 	$smarty->assignByRef('auth', $auth);
 
 
@@ -181,8 +184,8 @@
 		}
 	}
 	$smarty->assignByRef('input', $input);
-	
-	
+
+
 
 	if (! function_exists('smarty')) {
 		function smarty() {
@@ -193,17 +196,15 @@
 
 
  /*
- * INCLUDE ROUTES.PHP 
- * 
+ * INCLUDE ROUTES.PHP
+ *
  */
 
- 
-  
+
+
 	if (file_exists (APTITUDE_CORE . '/Configs/routes.php')) {
 		require (APTITUDE_CORE . '/Configs/routes.php');
 	} else {
 		echo "Make sure that " . APTITUDE_CORE . "/Configs/routes.php exists";
 		exit;
 	}
-
-

@@ -1,7 +1,7 @@
 <?php
 
-class SiteUserProject extends AppModel {
-	protected $table = "site_user_project";
+class UserProject extends AppModel {
+	protected $table = "user_project";
 
 
 	public function searchExisting($user_id, $project_id) {

@@ -1,11 +1,11 @@
 <?php
 
 class AppController extends MainController {
-	
+
 	protected function siteData() {
 		if (auth()->isLoggedIn()) {
 			smarty()->assignByRef('companyProjects', $this->loadModel('Project')->fetchProjects());
-			smarty()->assignByRef('user', $this->loadModel('SiteUser', auth()->getRecord()->id));
+			smarty()->assignByRef('user', $this->loadModel('User', auth()->getRecord()->id));
 			smarty()->assignByRef('company', $this->loadModel('Company', auth()->getRecord()->company_id));
 
 
@@ -16,13 +16,13 @@ class AppController extends MainController {
 			} else {
 				$headerImage = false;
 			}
-			
+
 		} else {
 			$headerImage = false;
 		}
 
 		smarty()->assign('headerImage', $headerImage);
-		
+
 	}
 
 }

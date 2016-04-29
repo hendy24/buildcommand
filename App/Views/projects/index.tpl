@@ -7,7 +7,7 @@
 			$("#delete-dialog").dialog({
 				buttons: {
 					"Confirm": function() {
-						var id = item.parent().attr('title');							
+						var id = item.parent().attr('title');
 						$.ajax({
 							type: 'post',
 							url: SITE_URL,
@@ -39,7 +39,7 @@
 				buttons: {
 					"Completed": function() {
 						var id = item.parent().attr('title');
-							
+
 						$.ajax({
 							type: 'post',
 							url: SITE_URL,
@@ -58,7 +58,7 @@
 					},
 					"Lost": function() {
 						var id = item.parent().attr('title');
-							
+
 						$.ajax({
 							type: 'post',
 							url: SITE_URL,
@@ -107,21 +107,16 @@
 		</tr>
 		<tr class="column-names">
 			<td style="width: 250px">Project Name</td>
-			<td>Sq Ft</td>
-			<td>Start</td>
-			<td>Completion</td>
-			<td>Estimate</td>
-			<td>Actual</td>
+			<td>Class</td>
+			<td>Type</td>
+			<td>Pipeline</td>
 			<td style="width: 25px">&nbsp;</td>
 		</tr>
 		{foreach $projects as $p}
 		<tr>
 			<td><a href="/?page=projects&amp;action=manage&amp;id={$p->public_id}">{$p->name}</a></td>
-			<td>{$p->basement_sq_ft + $p->main_floor_sq_ft + $p->upper_floor_sq_ft}</td>
-			<td>{$p->start_date|date_format: "%m/%d/%y"}</td>
-			<td></td>
-			<td>{currency_format($p->estimated_cost)}</td>
-			<td>{currency_format($p->actual_cost)}</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
 			<td>{$toolMenu->options($p)}</td>
 		</tr>
 		{/foreach}

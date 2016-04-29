@@ -1,37 +1,23 @@
 <script>
 	$(document).ready(function() {
-
-		$(".margin").hide();
-
 		$("#delete-project").click(function() {
 			if (confirm("Are you sure you want to delete this project?  This cannot be undone.")) {
 				// delete project
 				window.location = SITE_URL + "/projects/delete/public_id:" + $(this).attr('rel');
 			}
-			
+
 			return false;
-			
+
 		});
-		
-		
+
 		$("#delete-plan").click(function() {
 			if (confirm("Are you sure you want to delete the current house plan?")) {
 				// delete house plan with ajax
 				window.location = SITE_URL + "/projects/delete_plan/public_id:" + $(this).attr('rel');
 			}
-			
+
 			return false;
 		});
-
-		$(".bid-type").change(function() {
-			if ($(this).val() == "cost_plus") {
-				$(".margin").show();
-			} else {
-				$(".margin").hide();
-			}
-		});
-
-
 
 		// Drag and drop file upload
 		var obj = $("#draganddrop");
@@ -70,7 +56,7 @@
 		    e.preventDefault();
 		});
 
-		
+
 		function handleFileUpload(files, obj) {
 			for (var i = 0; i < files.length; i++) {
 				var fd = new FormData();
@@ -117,7 +103,7 @@
 		}
 
 	});
-	
+
 </script>
 
 <h1>Add New Project</h1>
@@ -127,29 +113,40 @@
 		<input type="hidden" name="page" value="projects">
 		<input type="hidden" name="action" value="add">
 		<input type="hidden" name="path" value="{$currentUrl}">
-		
+
 		<table>
 			<tr class="title-row">
-				<td>Project Name:</td>
-				<td>Type</td>
-				
+				<td colspan="2">Project Name:</td>
 			</tr>
 			<tr>
-				<td><input type="text" name="name" style="width: 200px" value=""></td>
-				<td>
-					<input type="radio" name="type" value="new_construction"> New Construction <br>
-					<input type="radio" name="type" value="remodel_addition"> Remodel / Addition
+				<td colspan="2"><input type="text" name="name" style="width: 500px" value=""></td>
+			</tr>
+			<tr>
+				<td><strong>Class:</strong>
+					<select name="class" id="class">
+						<option value="">Select...</option>
+						{foreach from=$class item=c}
+						<option value="{$c->id}">{$c->name}</option>
+						{/foreach}
+					</select>
 				</td>
-
-			</tr>
-			<tr class="title-row">
-				<td>Payment Type</td>				
+				<td><strong>Type:</strong>
+					<select name="type" id="type">
+						<option value="">Select...</option>
+						{foreach from=$type item=t}
+						<option value="{$t->id}">{$t->name}</option>
+						{/foreach}
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<td>
-					<input type="radio" class="bid-type" name="bid_type" value="cost_plus"> Cost Plus <br>
-					<input type="radio" class="bid-type" name="bid_type" value="fixed_price"> Fixed Price <br>
-					<input type="radio" class="bid-type" name="bid_type" value="time_materials"> Time &amp; Materials
+				<td><strong>Bid Type:</strong>
+					<select name="bid_type" id="bid-type">
+						<option value="">Select...</option>
+						<option value="cost_plus">Cost Plus</option>
+						<option value="fixed_price">Fixed Price</option>
+						<option value="time_materials">Time &amp; Materials</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -159,7 +156,7 @@
 			<tr class="title-row">
 				<td>Finished Sq. Ft.:</td>
 				<td>Unfinished Sq. Ft.:</td>
-				
+
 			</tr>
 			<tr>
 				<td><input type="text" class="number" name="finished_sq_ft" value=""></td>
@@ -167,7 +164,7 @@
 			</tr>
 
 			<tr>
-				<td><strong>Project Plan</strong></td>	
+				<td><strong>Project Plan</strong></td>
 			</tr>
 			<tr>
 				<td colspan="2" id="draganddrop"><span class="text-grey">Drop files here...</span></td>
@@ -175,14 +172,31 @@
 			<tr>
 				<td><input type="file" name="plan_filename"></td>
 			</tr>
-			
+			<tr class="title-row">
+				<td>Owner Email</td>
+				<td>Owner Phone</td>
+			</tr>
+			<tr>
+				<td><input type="text" name="owner_email" style="width: 250px"></td>
+				<td><input type="text" name="owner_phone"></td>
+			</tr>
+			<tr class="title-row">
+				<td>Lender Email</td>
+				<td>Lender Phone</td>
+			</tr>
+
+			<tr>
+				<td><input type="text" name="lender_email" style="width: 250px"></td>
+				<td><input type="text" name="lender_phone"></td>
+			</tr>
+
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
-			
-			
-			<tr>		
+
+
+			<tr>
 				<td colspan="2" class="text-right"><input type="submit" value="Next">
 			</tr>
 		</table>

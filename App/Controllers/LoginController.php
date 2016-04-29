@@ -23,7 +23,7 @@ class LoginController extends AppController {
 		if (input()->user == "") {
 			$errorMessage[] = "Enter your username (email address)";
 		} else {
-			$username = input()->user; 
+			$username = input()->user;
 		}
 
 		if (input()->password == "") {
@@ -40,16 +40,16 @@ class LoginController extends AppController {
 
 		// If the username and password are correctly entered, validate the user
 		if (auth()->login($username, $password)) {
-			// redirect to site_user' default home page
+			// redirect to user's default home page
 			//$this->redirect(array('module' => session()->getSessionRecord('default_module')));
 			$user = auth()->getRecord();
 			if (isset ($user->temp_password)) {
-				$this->redirect(array('page' => 'site_user', 'action' => 'reset_password', 'id' => $user->public_id));
+				$this->redirect(array('page' => 'user', 'action' => 'reset_password', 'id' => $user->public_id));
 			} else {
 				$this->redirect(array('page' => 'project'));
 			}
-			
-			
+
+
 		} else { // send them back to the login page with an error
 			session()->setFlash(array('Could not authenticate the user'), 'error');
 			$this->redirect(input()->path);

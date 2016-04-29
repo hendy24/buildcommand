@@ -1,6 +1,6 @@
 <?php
 
-class AppModel {
+class MainModel {
 
 
 	public function generate($id = null, $class = null) {
@@ -29,15 +29,15 @@ class AppModel {
 	 *
 	 * NOTE: Uses a sql query prepared in the model with provided params to fetch
 	 * a single result from the database
-	 */	
-	
+	 */
+
 	public function fetchOne($sql, $params = array(), $class = null) {
 		if ($class != null) {
 			$called_class = $class;
 		} else {
 			$called_class = get_called_class();
 		}
-		
+
 		$class = new $called_class;
 		try {
 			return db()->fetchRow($sql, $params, $class);
@@ -56,7 +56,7 @@ class AppModel {
 	 * NOTE: Uses a sql query prepared in the model with provided params to fetch
 	 * all results from the database
 	 */
-	
+
 	public function fetchAll($sql = null, $params = array()) {
 		$called_class = get_called_class();
 		$class = new $called_class;
@@ -99,12 +99,12 @@ class AppModel {
 				foreach ($param as $k => $p) {
 					$params[":{$key}"] = $p;
 				}
-				
+
 				// Adding the .id to the query limits this as a universal function
 				$sql .= " {$key}.{$k} = :{$key} AND";
 			}
 		}
-		
+
 		$sql = trim($sql, ' AND');
 		return $this->fetchAll($sql, $params);
 	}
@@ -134,14 +134,14 @@ class AppModel {
 				} else {
 					return db()->saveRow($this);
 				}
-				
+
 			} else {
 				if (isset ($this->id) && $this->id != '') {
 					db()->updateRow($this);
 				} else {
 					return db()->saveRow($this);
 				}
-				
+
 			}
 		} catch (PDOException $e) {
 			echo $e;
@@ -156,7 +156,7 @@ class AppModel {
 	 *  DELETE ITEM BY ID
 	 * -------------------------------------------------------------------------
 	 */
-	
+
 	public function delete($data = false) {
 		try {
 			if ($data) {
@@ -171,7 +171,7 @@ class AppModel {
 
 		return true;
 	}
-	
+
 	public function fetchById($id, $className = null) {
 		$params[':id'] = $id;
 
@@ -183,8 +183,8 @@ class AppModel {
 
 		$class = new $model;
 		$table = $class->fetchTable();
-		
-		
+
+
 		$sql = "SELECT `{$table}`.*";
 		$belongsTo = $class->fetchBelongsTo();
 
@@ -193,7 +193,7 @@ class AppModel {
 			// 	if (isset ($b['join_field'])) {
 			// 		$sql .= ", `{$b['table']}`.`{$b['join_field']['column']}` AS {$b['join_field']['name']} ";
 			// 	}
-					
+
 			// }
 
 			$sql .= " FROM `{$table}`";
@@ -203,7 +203,7 @@ class AppModel {
 			// }
 		} else {
 			$sql .= " FROM `{$table}`";
-		} 
+		}
 
 		$sql .= " WHERE `{$table}`.";
 
@@ -213,7 +213,7 @@ class AppModel {
 			} else {
 				$sql .= "id=:id";
 			}
-			
+
 		} else {
 			$sql .= "public_id=:id";
 		}
@@ -302,8 +302,52 @@ class AppModel {
 	public function fullName() {
 		return $this->last_name . ", " . $this->first_name;
 	}
-	
-	
-	
-	
+
+
+
+	public function loadTable($name = false, $id = false) {
+		if ($name) {
+			if (file_exists (APP_PROTECTED_DIR . DS . 'Models' . DS . $name . '.php')) {
+				require_once (APP_PROTECTED_DIR . DS . 'Models' . DS . $name . '.php');
+			}
+
+			if (class_exists($name)) {
+				$class = new $name;
+			} else {
+				smarty()->assign('message', "Could not find the class {$name}");
+				//$this->loadView('error', 'index');
+				exit;
+			}
+		}
+
+		if ($id) {
+			return $class->fetchById($id);
+		} else {
+			//  This is an empty object, get the column names
+			//	If the table is schedule then it is trying to access the admission dashboard
+			//	we won't have access to this and don't need to get the column names from that
+			//	table anyway.
+			if ($class->fetchTable() != "schedule") {
+				return $class->fetchColumnNames();
+			} else {
+				//	If the table variable isn't set in the model, then just return an empty object.
+				return $class;
+			}
+
+		}
+
+
+		return false;
+	}
+
+	public function tableName() {
+		if ($this->prefix) {
+			return $this->prefix . "_" . $this->table;
+		} else {
+			return $this->table;
+		}
+
+	}
+
+
 }
