@@ -8,6 +8,14 @@
 				<li><a href="{$SITE_URL}/?page=projects&amp;action=add"><span class="text-grey">Add New Project</span></a></li>
 		</ul>
 	</li>
+	<li>Info
+		<ul>
+			<li><a href="{$SITE_URL}/?page=actions">Actions</a></li>
+			<li><a href="{$SITE_URL}/?page=files">Files</a></li>
+			<li><a href="{$SITE_URL}/?page=notes">Notes</a></li>
+		</ul>
+
+	</li>
 	<li><a href="{$SITE_URL}/?page=partners">Partners</a>
 <!-- 		<ul>
 			<li><a href="/?page=partners&amp;type=contractor">Contractors</a></li>

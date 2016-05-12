@@ -102,9 +102,6 @@
 	</div>
 
 	<table id="overview">
-		<tr>
-			<th colspan="7">Projects</th>
-		</tr>
 		<tr class="column-names">
 			<td style="width: 250px">Project Name</td>
 			<td>Class</td>
@@ -115,7 +112,8 @@
 		{foreach $projects as $p}
 		<tr>
 			<td><a href="/?page=projects&amp;action=manage&amp;id={$p->public_id}">{$p->name}</a></td>
-			<td>&nbsp;</td>
+			<td>{$p->class}</td>
+			<td>{$p->type}</td>
 			<td>&nbsp;</td>
 			<td>{$toolMenu->options($p)}</td>
 		</tr>

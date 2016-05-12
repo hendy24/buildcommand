@@ -29,39 +29,34 @@ class ProjectsController extends AppController {
 		smarty()->assign('toolMenu', $helper);
 		smarty()->assignByRef('project', $project);
 
-		// Fetch Item Groups
-		$itemGroups = $this->load('ItemGroup')->fetchItemGroupData($project->id);
 
-		$margin = $this->load('EstimateItem')->fetchBySectionItem($project->id, 86);
-		$contingency = $this->load('EstimateItem')->fetchBySectionItem($project->id, 85);
-
-		if (empty ($itemGroups)) {
-			$itemGroups = $this->load('ItemGroup')->fetchAll();
-			foreach ($itemGroups as $k => $i) {
-				$itemGroups[$k]->estimated_cost = "";
-				$itemGroups[$k]->actual_cost = "";
-				$totalEstimatedCost = "";
-				$totalActualCost = "";
-			}
+		// set the year
+		if (isset (input()->year)) {
+			$year = date('Y', strtotime(input()->year));
 		} else {
-			$totalEstimatedCost = null;
-			$totalActualCost = null;
-			foreach ($itemGroups as $k => $i) {
-				if ($itemGroups[$k]->description == "Closing") {
-					$itemGroups[$k]->estimated_cost = $itemGroups[$k]->estimated_cost + ($margin->estimated_cost + $contingency->estimated_cost);
-				}
-				$totalEstimatedCost += $i->estimated_cost;
-				$totalActualCost += $i->actual_cost;
-			}
-
+			$year = date('Y', strtotime("now"));
 		}
 
+		// set the month
+		if (isset (input()->month)) {
+			$month = date('F', strtotime("first day of " . input()->month . "  " . $year));
+		} else {
+			$month = date('F', strtotime("now"));
+		}
 
-		smarty()->assign('itemGroups', $itemGroups);
-		smarty()->assign('totalEstimatedCost', currency_format($totalEstimatedCost));
-		smarty()->assign('totalActualCost', currency_format($totalActualCost));
+		// get the actions for this project
+		$actions = $this->load('Action')->fetchActions($project->id);
+		smarty()->assign('actions', $actions);
+
+		// get the calendar dates for the month
+		$calendar = new Calendar;
+		$calendar->getMonth($month, $year);
+		smarty()->assignByRef('calendar', $calendar);
+
+		// $margin = $this->load('EstimateItem')->fetchBySectionItem($project->id, 86);
+		// $contingency = $this->load('EstimateItem')->fetchBySectionItem($project->id, 85);
+
 	}
-
 
 
 /*

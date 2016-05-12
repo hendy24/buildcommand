@@ -7,7 +7,8 @@
 	<link rel="stylesheet" href="{$JS}/jquery-ui-1.11.2.custom/jquery-ui.min.css">
 	<link rel="stylesheet" href="{$JS}/jQuery-Autocomplete-master/content/styles.css" />
 	<link rel="stylesheet" href="{$CSS}/styles.css">
-	<script src="{$JS}/jquery-2.1.1.min.js"></script>
+	<script src="{$JS}/jquery-2.2.3.min.js"></script>
+	<!-- <script type="text/javascript" src="{$JS}/colorbox-master/jquery.colorbox.js"></script> -->
 	<script type="text/javascript" src="{$JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{$JS}/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{$JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
@@ -34,9 +35,9 @@
 				<a href="{$SITE_URL}/login">Login</a>&nbsp;|&nbsp; <a href="{$SITE_URL}/register">Register</a>
 				{else}
 				Hello, {$auth->getRecord()->fullName()}&nbsp;|&nbsp; <a href="{$SITE_URL}/logout">Logout</a>
-				{/if} 
+				{/if}
 
-				
+
 			</div>
 			<nav>
 				{if $auth->isLoggedIn()}
@@ -65,10 +66,10 @@
 			<div id="page-content">
 				{include file=$content}
 			</div>
-			
+
 		</div>
 	</div>
 	<div id="footer">All content &copy; {$smarty.now|date_format: "%Y"} BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</div>
-	
+
 </body>
 </html>

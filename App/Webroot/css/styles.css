@@ -44,6 +44,12 @@
 	text-shadow: 5px 5px 5px rgba(0,0,0,.6);
 }
 
+#button-top-right {
+	position: absolute;
+	right: 80px;
+	top: 100px;
+}
+
 html {
 	height: 100%;
 	width: 100%;
@@ -126,10 +132,15 @@ a:hover {
 }
 
 
+.inline {
+	display: inline;
+}
+
+
 .button-left {
 	position: relative;
 	float: left;
-	margin-top: -40px;
+	margin-top: -50px;
 	margin-left: 0;
 	display: inline;
 }
@@ -137,7 +148,7 @@ a:hover {
 .button-right {
 	position: relative;
 	float: right;
-	margin-top: -40px;
+	margin-top: -50px;
 }
 
 a.button, a.button:visited {
@@ -266,12 +277,16 @@ h1 {
 	line-height: 24px;
 }
 
+h1#header-title {
+
+}
+
 h2 {
 /* 	color: #93c947; */
-	color: #4c81b3;
+	color: #333333;
 	margin: 0px 0px 0px 0px;
 	padding: 0px;
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: 100;
 }
 
@@ -1174,4 +1189,270 @@ table.details tr td:last-child {
 	float: right;
 	margin-top: -75px;
 	margin-right: 100px;
+}
+
+
+
+
+/* Project page styling */
+
+#sidebar {
+	width: 25%;
+	height: 100%;
+	position: relative;
+	float: left;
+	margin-top: 60px;
+}
+
+#sidebar h3 {
+	text-align: center;
+	background-color: #444444;
+	color: #f1f1f1;
+	padding: 2px;
+	margin: 0 0 5px 0;
+	padding: 4px 0;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+#sidebar input[type="submit"] {
+	float: right;
+}
+
+
+#sidebar table {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#sidebar table th {
+	background-color: #ffffff;
+	color: #c8c8c8;
+	border-bottom: 1px solid #c8c8c8;
+	margin: 0;
+}
+
+#sidebar table td {
+	border-collapse: collapse;
+	padding: 2px 0;
+}
+
+#sidebar table td.submit-button {
+	padding: 15px 0 0 0;
+}
+
+.project-module {
+	width: 100%;
+	margin: 5px 2px 30px 2px;
+	clear: right;
+}
+
+.project-module a {
+	color: #ffffff;
+}
+
+
+#main-page-right {
+	float: left;
+	width: 73%;
+	margin-left: 2%;
+}
+
+
+#project-estimate {
+	min-height: 600px;
+}
+
+
+/* Calendar Styles */
+
+#project-calendar {
+	margin-bottom: 50px;
+	position: relative;
+}
+table.calendar {
+	width: 100%;
+	margin: 0;
+}
+
+table.calendar th {
+	text-align: right;
+	background: none;
+	color: #a8a8a8;
+	border-bottom: 1px solid #a8a8a8;
+}
+
+table.calendar th, table.calendar td {
+	width: 14.28%;
+}
+
+tr.calendar-row	{
+	height: 80px;
+	border-left: 1px solid #a8a8a8;
+}
+
+td.calendar-day	{
+
+}
+
+* html div.calendar-day {
+	height:80px;
+}
+
+td.calendar-day:hover	{ background:#eceff5; }
+
+td.calendar-day-np	{
+	background:#eee;
+	min-height:80px;
+}
+* html div.calendar-day-np { height:80px; }
+
+div.day-number {
+	padding:5px;
+	color:#888888;
+	position: relative;
+	margin-top: -40px;
+	text-align: right;
+}
+
+/* shared */
+td.calendar-day, td.calendar-day-np {
+	width:120px;
+	padding:5px;
+	border-bottom:1px solid #999;
+	border-right:1px solid #999;
+}
+
+
+
+/* Actions page styles */
+#actions {
+	margin-top: 25px;
+}
+
+#new-action-div {
+	position: relative;
+}
+
+#new-action-div input {
+	float: left;
+	margin-top: 25px;
+	height: 30px;
+	font-size: 18px;
+	width: 100%;
+}
+
+#new-project-action {
+	width: 97%;
+	font-size: 16px;
+	margin: 5px 0 10px 0;
+}
+
+.action-project-title {
+	margin: 10px 0;
+}
+
+.action-project-title h2 {
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 2px 5px;
+}
+
+#actions-table {
+	min-width: 70%;
+	max-width: 100%;
+	width: auto;
+	margin-left: 0;
+}
+
+#actions-table th {
+	background-color: #ffffff;
+	color: #333;
+	text-align: left;
+	font-weight: bold;
+	font-size: 16px;
+	padding-top: 20px;
+}
+
+#actions-table td {
+	padding: 5px 25px;
+}
+
+.action-item {
+	margin-left: 20px;
+}
+
+.action-item p {
+	float: left;
+}
+
+.action-item p.date {
+	float: right;
+}
+
+.action-list {
+	height: 40px;
+	font-size: 16px;
+}
+
+
+/* Note page styles */
+#note-container {
+	clear: right;
+}
+
+#note-container input:focus, #note-container textarea:focus {
+	outline: none;
+}
+
+#note-container input {
+	width: 95%;
+	background: #f9f9f9;
+	border: none;
+	font-size: 18px;
+	line-height: 24px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#note-container textarea {
+	width: 95%;
+	height: 30;
+	border: none;
+	background-color: #f9f9f9;
+	font-size: 14px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: normal;
+	padding: 0;
+}
+
+#notes-list {
+	height: 150px;
+	width: 100%;
+	float: left;
+	overflow: scroll;
+}
+
+.notes-table {
+	background-color: #f9f9f9;
+	width: 100%;
+}
+
+.notes-table th {
+	background-color: #ffffff;
+	padding: 10px;
+}
+
+.notes-table td {
+	height: 10px;
+	padding: 6px;
+}
+
+.notes-table td.date {
+	width: 20%;
+}
+
+#note-content {
+	float: left;
+	width: 100%;
 }
