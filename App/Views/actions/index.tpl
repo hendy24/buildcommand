@@ -44,19 +44,11 @@
   });
 </script>
 
-<h1>My Actions</h1>
+<h1>Project Actions</h1>
 
-<div id="sidebar">
-  <div class="action-list"><a href="{$SITE_URL}/?page=actions&amp;project=inbox"
-    id="inbox">Inbox</a></div>
-  <div class="action-list"><a href="{$SITE_URL}/?page=actions&amp;project=all"
-    id="all">All</a></div>
-  {foreach from=$projects_list item=project_item}
-  <div class="action-list"><a href="{$SITE_URL}/?page=actions&amp;project={$project_item->public_id}"
-    id="{$project->public_id}">{$project_item->name}</a></div>
-  {/foreach}
-</div>
-<div id="main-page-right">
+{include file="elements/projects_nav.tpl"}
+
+<div id="nav-sidebar-main-page-right">
   <input type="hidden" id="project" name="project" value="{$project->public_id}">
   <div id="new-action-div">
     <input type="text" id="new-inbox-action" class="new-action" placeholder='Add a new action to the "Inbox"'>

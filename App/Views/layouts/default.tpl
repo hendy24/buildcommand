@@ -69,7 +69,7 @@
 
 		</div>
 	</div>
-	<div id="footer">All content &copy; {$smarty.now|date_format: "%Y"} BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</div>
+	<div id="footer"><p>All content &copy; {$smarty.now|date_format: "%Y"} BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</p></div>
 
 </body>
 </html>

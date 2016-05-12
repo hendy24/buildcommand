@@ -5,10 +5,21 @@ class Note extends AppModel {
   protected $table = "note";
 
 
-  public function fetchNotes() {
-    $sql = "SELECT * FROM {$this->tableName()} note ORDER BY note.datetime_modified DESC";
+  public function fetchNotes($project, $num_results = false) {
+    $params = array();
+    $sql = "SELECT * FROM {$this->tableName()} note ";
 
-    return $this->fetchAll($sql);
+    if ($project != "all") {
+      $sql .= " WHERE note.project = :project_id";
+      $params[":project_id"] = $project;
+    }
+    $sql .= " ORDER BY note.datetime_modified DESC";
+
+    if ($num_results) {
+      $sql .= " LIMIT {$num_results}";
+    }
+
+    return $this->fetchAll($sql, $params);
   }
 
 }

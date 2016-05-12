@@ -48,6 +48,9 @@ class ProjectsController extends AppController {
 		$actions = $this->load('Action')->fetchActions($project->id);
 		smarty()->assign('actions', $actions);
 
+		$notes = $this->load('Note')->fetchNotes($project->id, 5);
+		smarty()->assign('notes', $notes);
+
 		// get the calendar dates for the month
 		$calendar = new Calendar;
 		$calendar->getMonth($month, $year);

@@ -20,6 +20,7 @@ class ActionsController extends AppController {
       smarty()->assign('project_name', $project->name);
     } else {
       input()->project = "all";
+      $project_id = "all";
     }
 
     if (!empty ($project)) {
@@ -45,6 +46,7 @@ class ActionsController extends AppController {
     smarty()->assign('actions', $action_array);
     smarty()->assign('projects_list', $projects_list);
     smarty()->assign('project', $project);
+    smarty()->assign('projectId', $project_id);
   }
 
 

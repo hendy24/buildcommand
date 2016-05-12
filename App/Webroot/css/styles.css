@@ -44,10 +44,17 @@
 	text-shadow: 5px 5px 5px rgba(0,0,0,.6);
 }
 
-#button-top-right {
+.title-action-item {
 	position: absolute;
+	top: 110px;
+}
+
+.title-action-item-left {
+	left: 305px;
+}
+
+.title-action-item-right {
 	right: 80px;
-	top: 100px;
 }
 
 html {
@@ -59,7 +66,7 @@ html {
 body {
 	margin: 0;
 	padding: 0;
-	background-color: #444;
+	background-color: #ffffff;
 }
 
 body, td, th {
@@ -296,8 +303,9 @@ h2 {
 	width: 90%;
 	background: #fff;
 	margin: 15px auto;
-	border: 2px solid #d9d9d9;
-	border-radius: 2px;
+	min-height: 100%;
+	/*border: 2px solid #d9d9d9;
+	border-radius: 2px;*/
 }
 
 #header {
@@ -343,7 +351,7 @@ h2 {
 
 #content {
 	overflow: auto;
-	padding: 3px 17px;
+	padding: 3px 17px 30px 17px;
 	min-height: 450px;
 	height: auto; !important
 	height: 450px;
@@ -351,7 +359,7 @@ h2 {
 
 #page-content {
 	margin: 25px auto;
-	width: 90%;
+	width: 100%;
 }
 
 
@@ -668,10 +676,12 @@ table td#wrench-menu {
 /***************** FOOTER **********************/
 
 #footer {
-	width: 90%;
+	width: 100%;
+	height: 30px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 	text-align: right;
-	margin: 5px auto;
-	padding-right: 25px;
 	color: #888;
 	font-size: 12px;
 }
@@ -682,6 +692,11 @@ table td#wrench-menu {
 
 #footer a:hover {
 	color: #ec9236;
+}
+
+#footer p {
+	margin-right: 60px;
+	padding-bottom: 15px;
 }
 
 
@@ -1241,6 +1256,26 @@ table.details tr td:last-child {
 	padding: 15px 0 0 0;
 }
 
+#nav-sidebar {
+	width: 18%;
+	height: 100%;
+	position: relative;
+	float: left;
+	margin-top: 10px;
+
+}
+
+#nav-sidebar-main-page-right {
+	float: left;
+	width: 80%;
+	margin-left: 2%;
+
+}
+
+.selected-project {
+	font-weight: bold;
+}
+
 .project-module {
 	width: 100%;
 	margin: 5px 2px 30px 2px;
@@ -1417,25 +1452,68 @@ td.calendar-day, td.calendar-day-np {
 
 #note-container textarea {
 	width: 95%;
-	height: 30;
+	height: 200px;
 	border: none;
 	background-color: #f9f9f9;
 	font-size: 14px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	padding: 0;
+	resize: none;
+}
+
+#notes-header-table {
+	padding: 0;
+	margin: 0;
+}
+
+#notes-header-table th {
+	background-color: #ffffff;
+	color: #333;
+	text-align: left;
+	font-weight: bold;
+	padding: 0;
 }
 
 #notes-list {
-	height: 150px;
+	height: auto !important;
+	max-height: 150px;
+	margin-top: 0;
 	width: 100%;
 	float: left;
 	overflow: scroll;
 }
 
+.clickable-row:hover {
+	cursor: pointer;
+}
+
+.selected-row {
+	border: 1px solid #666;
+	background-color: #ffffff;
+}
+
 .notes-table {
 	background-color: #f9f9f9;
 	width: 100%;
+	margin: 4px 0;
+}
+
+.notes-table select {
+	font-size: 16px;
+	border: none;
+}
+
+.notes-table select:focus {
+	outline: none;
+}
+
+.notes-table tr.row {
+
+}
+
+.notes-table tr.row-alt {
+	background-color: #f4f4f4;
 }
 
 .notes-table th {
@@ -1455,4 +1533,5 @@ td.calendar-day, td.calendar-day-np {
 #note-content {
 	float: left;
 	width: 100%;
+	margin-top: 10px;
 }

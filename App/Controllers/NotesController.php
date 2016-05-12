@@ -12,14 +12,35 @@ class NotesController extends AppController {
  *
  */
   public function index() {
-    $this->title = "My Actions";
+    $this->title = "Project Notes";
     $projects_list = $this->load('Project')->fetchAll();
 
+    if (isset (input()->project)) {
+      if (input()->project == "all") {
+        $project_id = "all";
+      } else {
+        $project = $this->load('Project', input()->project);
+        $project_id = $project->id;
+      }
+    } else {
+      $project_id = "all";
+      $project = $this->load('Project');
+    }
+
+    if (isset (input()->note)) {
+      $note = $this->load('Note', input()->note);
+    } else {
+      $note = $this->load('Note');
+    }
+
     // get the notes
-    $notes = $this->load('Note')->fetchNotes();
+    $notes = $this->load('Note')->fetchNotes($project_id);
 
     smarty()->assign('projects_list', $projects_list);
+    smarty()->assign('project', $project);
+    smarty()->assign('projectId', $project_id);
     smarty()->assign('notes', $notes);
+    smarty()->assign('selNote', $note);
   }
 
 
@@ -62,16 +83,15 @@ class NotesController extends AppController {
     // if an existing item fetch it with the id, otherwise create a new object
     $note = $this->load('Note', input()->id);
 
-    if (input()->type == "title") {
-      if (input()->data != "") {
-        $note->title = input()->data;
-      } else {
-        $note->title = "Untitled";
-      }
-    } elseif (input()->type == "content") {
-      if (input()->data != "") {
-        $note->content = input()->data;
-      }
+    if (input()->data != "") {
+      $note->content = input()->data;
+    } else {
+      return false;
+    }
+
+    if (input()->project != "") {
+      $project = $this->load('Project', input()->project);
+      $note->project = $project->id;
     }
 
     if ($note->save()) {

@@ -25,4 +25,12 @@ class AppController extends MainController {
 
 	}
 
+	public function pageName() {
+		return strtolower($this->page);
+	}
+
+	public function projectName($project) {
+		return $this->load('Project', $project)->name;
+	}
+
 }

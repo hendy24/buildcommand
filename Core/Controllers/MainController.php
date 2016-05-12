@@ -156,6 +156,7 @@ class MainController {
 			$title = stringify($name);
 		}
 		smarty()->assign('title', $title);
+		smarty()->assign('this', $this);
 
 		// set the base template
 		smarty()->display("layouts/{$this->template}.tpl");

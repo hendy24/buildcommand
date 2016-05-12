@@ -1,8 +1,17 @@
 <script>
   $(document).ready(function() {
+
+    var projectId = $("#project").val();
+
     $(".calendar-day").dblclick(function() {
       // use this to add new calendar events
 
+    });
+
+    $(".clickable-row").click(function() {
+      var publicId = $(this).find("input.public-id").val();
+      console.log(publicId);
+      window.location.href = SITE_URL + "/?page=notes&project=" + projectId + "&note=" + publicId;
     });
 
     // save the new action item
@@ -69,17 +78,21 @@
   <div class="project-module">
     <h3>Project Notes</h3>
     <table>
+      {foreach from=$notes item=note}
+      <tr class="clickable-row">
+        <td>
+            <input type="hidden" class="public-id" name="note_id" value="{$note->public_id}">
+            {$note->datetime_modified|date_format:"%D"}
+        </td>
+        <td>{$note->content|truncate:32:"..."}</td>
+      </tr>
+      {/foreach}
       <tr>
-        <td>5.2.2016</td>
-        <td>This is a note snippet...</td>
+        <td colspan="2">&nbsp;</td>
       </tr>
       <tr>
-        <td>4.28.2016</td>
-        <td>This is another note snippet...</td>
-      </tr>
-      <tr>
-        <td colspan="2" class="submit-button">
-          <input type="submit" value="New">
+        <td colspan="2" class="text-right">
+          <a href="{$SITE_URL}/?page=notes&amp;project={$project->public_id}" class="button">New Note</a>
         </td>
       </tr>
     </table>
