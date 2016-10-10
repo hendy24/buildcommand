@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="{$JS}/jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="{$JS}/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="{$JS}/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="{$JS}/jquery-dateFormat.min.js"></script>
+	<script type="text/javascript" src="{$JS}/autoNumeric.js"></script>
 	<script type="text/javascript" src="{$JS}/shadowbox-3.0.3/shadowbox.js"></script>
 	<link rel="stylesheet" href="{$JS}/shadowbox-3.0.3/shadowbox.css">
 	<script type="text/javascript" src="{$JS}/general.js"></script>
@@ -69,7 +71,7 @@
 
 		</div>
 	</div>
-	<div id="footer"><p>All content &copy; {$smarty.now|date_format: "%Y"} BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</p></div>
+	<!-- <div id="footer"><p>All content &copy; {$smarty.now|date_format: "%Y"} BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</p></div> -->
 
 </body>
 </html>

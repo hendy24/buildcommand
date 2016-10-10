@@ -81,6 +81,33 @@ class ActionsController extends AppController {
 
 
 
+/*
+ * -----------------------------------------------------------------------------
+ * AJAX call to save action
+ * -----------------------------------------------------------------------------
+ *
+ *
+ */
+    public function saveAction() {
+      if (input()->action_id != "") {
+        $action = $this->load('Action', input()->action_id);
+      }
+
+      if (input()->date != "") {
+        $action->date_due = mysql_date(input()->date);
+      }
+
+      if ($action->save()) {
+        return true;
+      }
+      return false;
+
+    }
+
+
+
+
+
 
 /*
  * -----------------------------------------------------------------------------
@@ -105,29 +132,21 @@ class ActionsController extends AppController {
   }
 
 
-
 /*
  * -----------------------------------------------------------------------------
- * Get all the actions
+ * AJAX request to get all completed actions for a project
  * -----------------------------------------------------------------------------
  *
  *
  */
-  // public function getActions() {
-  //   if (input()->project != "") {
-  //     $project = $this->load('Project')->fetchProjectForActions(input()->project);
-  //   }
-  //
-  //   if (!empty ($project)) {
-  //     $actions = $this->load('Action')->fetchActions($project->id);
-  //   } else {
-  //     $actions = $this->load('Action')->fetchActions(input()->project);
-  //   }
-  //
-  //   json_return($actions);
-  //
-  // }
+    public function getCompletedActions() {
+      if (input()->project != "") {
+        $project = $this->load('Project', input()->project);
+        $actions = $this->load('Action')->fetchProjectActions($project->id, "completed");
+        json_return ($actions);
+      }
 
-
+      return false;
+    }
 
 }

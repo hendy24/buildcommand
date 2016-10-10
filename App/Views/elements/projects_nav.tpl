@@ -1,6 +1,6 @@
 <div id="nav-sidebar">
   <div class="action-list">
-    <a href="{$SITE_URL}/?page=notes&amp;project=all" id="all" class="{if $projectId == "all"} selected-project{/if}">All</a>
+    <a href="{$SITE_URL}/?page={$this->pageName()}&amp;project=all" id="all" class="{if $projectId == "all"} selected-project{/if}">All</a>
   </div>
   {foreach from=$projects_list item=project_item}
   <div class="action-list">

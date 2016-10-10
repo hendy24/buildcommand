@@ -7,7 +7,7 @@ class User extends AppModel {
 
 	public function fetchAllByCompanyId() {
 		$group = $this->loadTable('Group');
-		$sql = "SELECT u.*, group.name FROM {$this->table} u INNER JOIN {$group->tableName()} group ON group.id = {u.group_id WHERE u.company_id = :company_id ORDER BY u.last_name ASC";
+		$sql = "SELECT u.*, group.name FROM {$this->table} u INNER JOIN {$group->tableName()} group ON group.id = {u.group WHERE u.company = :company_id ORDER BY u.last_name ASC";
 		$params[":company_id"] = auth()->getRecord()->company_id;
 		return $this->fetchAll($sql, $params);
 	}

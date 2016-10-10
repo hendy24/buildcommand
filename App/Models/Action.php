@@ -5,10 +5,18 @@ class Action extends AppModel {
 
   protected $table = "action";
 
-  public function fetchProjectActions($project_id) {
-    $sql = "SELECT * FROM {$this->tableName()} a WHERE a.project = :project_id AND a.complete = 0 ORDER BY a.date_due ASC";
+  public function fetchProjectActions($project_id, $status = false) {
+    $sql = "SELECT * FROM {$this->tableName()} a WHERE a.project = :project_id";
     $params[":project_id"] = $project_id;
     $actions = $this->fetchAll($sql, $params);
+
+    if ($status) {
+      $sql .= " AND a.complete = 1";
+    } else {
+      $sql .= " AND a.complete = 0";
+    }
+
+    $sql .= " ORDER BY a.date_due ASC";
 
     if (empty ($actions)) {
       return $this->fetchColumnNames();

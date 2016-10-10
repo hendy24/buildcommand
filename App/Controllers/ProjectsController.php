@@ -24,10 +24,12 @@ class ProjectsController extends AppController {
 
 
 	public function manage() {
+
 		$project = $this->load('Project', input()->id);
 		$helper = $this->loadHelper('ToolMenu');
 		smarty()->assign('toolMenu', $helper);
 		smarty()->assignByRef('project', $project);
+		$this->title = $project->name;
 
 
 		// set the year
@@ -56,6 +58,16 @@ class ProjectsController extends AppController {
 		$calendar->getMonth($month, $year);
 		smarty()->assignByRef('calendar', $calendar);
 
+		$estimateItems = $this->load('EstimateCategory')->fetchCategoriesAndItems($project->id);
+
+		$itemsArray = array();
+		foreach ($estimateItems as $item) {
+			$itemsArray[$item->category][] = $item;
+		}
+
+		smarty()->assign('project', $project);
+		smarty()->assign('estimateItems', $itemsArray);
+
 		// $margin = $this->load('EstimateItem')->fetchBySectionItem($project->id, 86);
 		// $contingency = $this->load('EstimateItem')->fetchBySectionItem($project->id, 85);
 
@@ -74,12 +86,6 @@ class ProjectsController extends AppController {
 		smarty()->assign('title', "Add new project");
 		$user = $this->load('User', auth()->getRecord()->id);
 
-		// get project classes
-		$class = $this->load('ProjectClass')->fetchAll();
-		$type = $this->load('ProjectType')->fetchAll();
-
-		smarty()->assign('class', $class);
-		smarty()->assign('type', $type);
 
 		// Form has been submitted
 		if (input()->is("post")) {
@@ -173,6 +179,15 @@ class ProjectsController extends AppController {
 			if ($project->save()) {
 				// save to site user projects so the user that created the project has access to it.
 				$this->load('UserProject')->searchExisting($user->id, $project->id);
+
+				// save the estimate items associated with this project type
+				$project_est_items = $this->load('EstimateItemProjectType')->fetchByProjectClassType($project->class_type_id);
+				foreach ($project_est_items as $item) {
+					$estimate_item_project = $this->load('EstimateItemProjectType');
+					$estimate_item_project->project_id = $project->id;
+					$estimate_item_project->estimate_id = $item->id;
+					$estimate_item_project->save();
+				}
 
 				session()->setFlash("Successfully added new project", 'success');
 				$this->redirect(array('page' => 'projects'));

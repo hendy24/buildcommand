@@ -22,4 +22,19 @@ class Estimate extends AppModel {
 		$params[":project_id"] = $project_id;
 		return $this->fetchOne($sql, $params);
 	}
+
+
+	public function fetchEstimate($project_id, $estimate_item_id) {
+		$sql = "SELECT * FROM {$this->tableName()} WHERE project = :project_id AND estimate_item = :estimate_item_id LIMIT 1";
+		$params[":project_id"] = $project_id;
+		$params[":estimate_item_id"] = $estimate_item_id;
+
+		$result = $this->fetchOne($sql, $params);
+
+		if (!empty ($result)) {
+			return $result;
+		} else {
+			return $this;
+		}
+	}
 }

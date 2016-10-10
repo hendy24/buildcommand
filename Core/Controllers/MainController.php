@@ -155,6 +155,7 @@ class MainController {
 		} else {
 			$title = stringify($name);
 		}
+		
 		smarty()->assign('title', $title);
 		smarty()->assign('this', $this);
 

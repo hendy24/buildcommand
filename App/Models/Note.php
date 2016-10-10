@@ -13,7 +13,7 @@ class Note extends AppModel {
       $sql .= " WHERE note.project = :project_id";
       $params[":project_id"] = $project;
     }
-    $sql .= " ORDER BY note.datetime_modified DESC";
+    $sql .= " ORDER BY note.datetime_created DESC";
 
     if ($num_results) {
       $sql .= " LIMIT {$num_results}";

@@ -17,7 +17,6 @@
               // clear the new action from the input and display it in the action list
               $(this).val('');
 
-              console.log("success");
             }
         );
       }
@@ -39,7 +38,43 @@
     });
 
 
+    $(".datepicker").datepicker({
+      dateFormat: 'mm/dd/yy',
+      onSelect: function(selected, event) {
+        var actionId = $(this).parent().parent().find(".action-checkbox").val();
+        $.post(SITE_URL, {
+            page: "actions",
+            action: "saveAction",
+            action_id: actionId,
+            date: selected
+          }
+        );
+      }
+    });
+
+
     // display the completed actions
+    $("#show-completed").click(function(e) {
+      e.preventDefault();
+      var projectId = $("#project").val();
+      $.get(SITE_URL, {
+          page: "actions",
+          action: "getCompletedActions",
+          project: projectId
+        }, function(data) {
+          $.each(data, function(key, data) {
+            $("#completed-actions-table").append('<tr><td><input type="checkbox" checked class="action-checkbox" value="' + data.public_id +'">' + data.item + '</td><td>' + $.format.date(data.date_due, "dd/MM/yyyy") + '</td>');
+            $("#show-completed").html("Hide Completed");
+            $("#show-completed").attr("id", "hide-completed");
+          });
+        },
+        "json"
+      );
+    });
+
+    $("#hide-completed").on("click", function() {
+      $("#completed-actions-table").empty();
+    });
 
   });
 </script>
@@ -64,7 +99,7 @@
       {foreach from=$action item=a}
       <tr>
         <td><input type="checkbox" class="action-checkbox" name="" value="{$a->public_id}"> {$a->item}</td>
-        <td>{$a->date_due|date_format}</td>
+        <td><input type="text" name="date_due" class="date-due no-background datepicker" placeholder="Enter date" value="{$a->date_due|date_format:'%m/%d/%Y'}"></td>
       </tr>
       {/foreach}
       {/foreach}
@@ -72,7 +107,14 @@
         <td colspan="2">&nbsp;</td>
       </tr>
     </table>
+    {if !empty($project)}
     <a href="" id="show-completed" class="button">Show Completed Actions</a>
+    <div id="completed-actions">
+      <table id="completed-actions-table">
+
+      </table>
+    </div>
+    {/if}
   </div>
 </div>
 <div class="clear"></div>

@@ -138,6 +138,18 @@ a:hover {
 	text-decoration: none;
 }
 
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+.row {
+  cursor: move;
+}
 
 .inline {
 	display: inline;
@@ -266,6 +278,12 @@ input[type="submit"], input[type="button"] {
 
 input[type="submit"]:hover, input[type="button"]:hover {
 	background-color: #444;
+}
+
+
+input.no-background {
+	background: none;
+	border: none;
 }
 
 .styled-select {
@@ -583,33 +601,76 @@ nav ul li ul li:last-child {
 	font-weight: bold;
 }
 
-#estimate-table .title-row td {
-	background-color: #f8f8f8;
+
+table#estimate {
+	width: auto;
+	max-width: 80%;
+	min-width: 50%;
+	margin: 0 auto;
 }
 
-#estimate-table {
-	width: 80%;
-	max-width: 1024px;
-	margin-top: 20px;
+table.project-page {
+	width: 100% !important;
 }
 
-#estimate-table th {
-	color: #ffffff;
-	font-size: 20px;
-	padding: 10px;
-	letter-spacing: 1px;
+table#estimate td {
+	height: 14px;
+	padding: 2px 15px 0 15px;
+	margin: 0;
+	vertical-align: top;
+	
 }
 
-#estimate-table td {
-	padding: 3px 8px;
+table#estimate th {
+	font-weight: bold;
+	background-color: #ffffff;
+	color: #000000;
+	text-align: left;
 }
 
-#estimate-table .title-row td {
-	border-bottom: 1px solid #e8e8e8;
-	border-top: 1px solid #e8e8e8;
-	padding: 2px;
+table#estimate td.expand-item {
+	width: 2px;
+	text-align: right;
+	padding: 2px 0 0 0;
 }
 
+table#estimate td.estimate-item {
+	padding-left: 15px;
+	border-bottom: 1px dotted #e8e8e8;
+	width: 150px !important;
+	max-width: auto;
+}
+
+table#estimate td.bid {
+	border-bottom: 1px dotted #e8e8e8;
+	text-align: left;
+}
+
+table#estimate td.estimate-amount {
+	text-align: right;
+	border-bottom: 1px dotted #e8e8e8;
+}
+
+table#estimate input[type="text"] {
+	background: #ffffff;
+	border: #ffffff;
+	text-align: right;
+}
+
+table#estimate th.category input[type="text"] {
+	text-align: left;
+	font-weight: bold;
+	width: 200px;
+}
+
+table#estimate td.estimate-item input[type="text"] {
+	text-align: left;
+}
+
+table#estimate td.estimate-amount input[type="text"] {
+	max-width: auto;
+	width: 75px !important;
+}
 
 .number {
 	width: 50px;
@@ -1062,7 +1123,7 @@ table.details tr td:last-child {
 
 #manage-projects {
 	width: 100%;
-	margin: auto;
+	margin: 75px auto;
 }
 
 #table-pages {
@@ -1221,13 +1282,17 @@ table.details tr td:last-child {
 
 #sidebar h3 {
 	text-align: center;
-	background-color: #444444;
+	background-color: #666;
 	color: #f1f1f1;
 	padding: 2px;
 	margin: 0 0 5px 0;
 	padding: 4px 0;
 	font-weight: normal;
 	font-size: 14px;
+}
+
+#sidebar h3:hover {
+	background: #333;
 }
 
 #sidebar input[type="submit"] {
@@ -1269,6 +1334,7 @@ table.details tr td:last-child {
 	float: left;
 	width: 80%;
 	margin-left: 2%;
+	position: relative;
 
 }
 
@@ -1286,17 +1352,12 @@ table.details tr td:last-child {
 	color: #ffffff;
 }
 
-
 #main-page-right {
 	float: left;
 	width: 73%;
 	margin-left: 2%;
 }
 
-
-#project-estimate {
-	min-height: 600px;
-}
 
 
 /* Calendar Styles */
@@ -1375,6 +1436,7 @@ td.calendar-day, td.calendar-day-np {
 	height: 30px;
 	font-size: 18px;
 	width: 100%;
+	border: none;
 }
 
 #new-project-action {

@@ -87,7 +87,6 @@
 	});
 </script>
 <div id="manage-projects">
-
 	<h1>{$company->name}</h1>
 
 	<div class="button-left">

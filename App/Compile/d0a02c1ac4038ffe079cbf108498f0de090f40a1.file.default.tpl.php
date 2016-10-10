@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-05 14:11:40
+<?php /* Smarty version Smarty-3.1.19, created on 2016-10-05 19:42:55
          compiled from "/mnt/hgfs/Sites/buildcommand/App/Views/layouts/default.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:307003485542b4c765c5cf7-14847924%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'd0a02c1ac4038ffe079cbf108498f0de090f40a1' => 
     array (
       0 => '/mnt/hgfs/Sites/buildcommand/App/Views/layouts/default.tpl',
-      1 => 1415221897,
+      1 => 1463093172,
       2 => 'file',
     ),
   ),
@@ -51,13 +51,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<link rel="stylesheet" href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['CSS']->value, ENT_QUOTES, 'UTF-8');?>
 /styles.css">
 	<script src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
-/jquery-2.1.1.min.js"></script>
+/jquery-2.2.3.min.js"></script>
+	<!-- <script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
+/colorbox-master/jquery.colorbox.js"></script> -->
 	<script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
 /jquery-validation-1.13.0/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
 /jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
 /jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
+/jquery-dateFormat.min.js"></script>
 	<script type="text/javascript" src="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
 /shadowbox-3.0.3/shadowbox.js"></script>
 	<link rel="stylesheet" href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['JS']->value, ENT_QUOTES, 'UTF-8');?>
@@ -91,9 +95,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				Hello, <?php echo htmlspecialchars($_smarty_tpl->tpl_vars['auth']->value->getRecord()->fullName(), ENT_QUOTES, 'UTF-8');?>
 &nbsp;|&nbsp; <a href="<?php echo htmlspecialchars($_smarty_tpl->tpl_vars['SITE_URL']->value, ENT_QUOTES, 'UTF-8');?>
 /logout">Logout</a>
-				<?php }?> 
+				<?php }?>
 
-				
+
 			</div>
 			<nav>
 				<?php if ($_smarty_tpl->tpl_vars['auth']->value->isLoggedIn()) {?>
@@ -137,11 +141,12 @@ $_smarty_tpl->tpl_vars['m']->_loop = true;
 				<?php echo $_smarty_tpl->getSubTemplate ($_smarty_tpl->tpl_vars['content']->value, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
 			</div>
-			
+
 		</div>
 	</div>
-	<div id="footer">All content &copy; <?php echo htmlspecialchars(smarty_modifier_date_format(time(),"%Y"), ENT_QUOTES, 'UTF-8');?>
- BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</div>
-	
+	<!-- <div id="footer"><p>All content &copy; <?php echo htmlspecialchars(smarty_modifier_date_format(time(),"%Y"), ENT_QUOTES, 'UTF-8');?>
+ BuildCommand. Powered by <a href="http://www.aptitudeit.net" target="_blank">aptitude</a>.</p></div> -->
+
 </body>
-</html><?php }} ?>
+</html>
+<?php }} ?>

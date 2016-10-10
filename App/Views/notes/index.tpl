@@ -81,7 +81,7 @@
       <table class="notes-table">
       {foreach from=$notes item=note}
         <tr class="{cycle values="row,row-alt"} clickable-row project-notes-list" id="{$note->public_id}">
-          <td class="date">{$note->datetime_modified|date_format}</td>
+          <td class="date">{$note->datetime_created|date_format:"%m.%d.%Y %r"}</td>
           <td>{$this->projectName($note->project)}</td>
           <td>{$note->content|truncate:60:"..."}</td>
           <td><img src="{$IMAGES}/cancel_16.png" alt=""></td>

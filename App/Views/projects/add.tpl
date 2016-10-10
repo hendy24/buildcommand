@@ -122,24 +122,6 @@
 				<td colspan="2"><input type="text" name="name" style="width: 500px" value=""></td>
 			</tr>
 			<tr>
-				<td><strong>Class:</strong>
-					<select name="class" id="class">
-						<option value="">Select...</option>
-						{foreach from=$class item=c}
-						<option value="{$c->id}">{$c->name}</option>
-						{/foreach}
-					</select>
-				</td>
-				<td><strong>Type:</strong>
-					<select name="type" id="type">
-						<option value="">Select...</option>
-						{foreach from=$type item=t}
-						<option value="{$t->id}">{$t->name}</option>
-						{/foreach}
-					</select>
-				</td>
-			</tr>
-			<tr>
 				<td><strong>Bid Type:</strong>
 					<select name="bid_type" id="bid-type">
 						<option value="">Select...</option>
@@ -151,7 +133,7 @@
 			</tr>
 			<tr>
 				<td><strong>Contingency (%):</strong> <input type="text" name="contingency" class="number"></td>
-				<td class="margin"><strong>Margin (%):</strong> <input type="text" name="margin" class="number"></td>
+				<td class="margin"><strong>Profit Margin (%):</strong> <input type="text" name="margin" class="number"></td>
 			</tr>
 			<tr class="title-row">
 				<td>Finished Sq. Ft.:</td>

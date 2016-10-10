@@ -37,7 +37,6 @@ class LoginController extends AppController {
 			$this->redirect(input()->path);
 		}
 
-
 		// If the username and password are correctly entered, validate the user
 		if (auth()->login($username, $password)) {
 			// redirect to user's default home page

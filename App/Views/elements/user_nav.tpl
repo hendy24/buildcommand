@@ -32,5 +32,6 @@
 				<li><a href="/?page=users&amp;action=add">Add User</a></li>
 				<li><a href="/?page=users&amp;action=manage">Manage Users</a></li>
 			{/if}
+			<li><a href="{$SITE_URL}/?page=estimate_items&amp;action=manage">Manage Estimate items</a></li>
 		</ul>
 </ul>

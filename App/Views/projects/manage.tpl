@@ -10,7 +10,6 @@
 
     $(".clickable-row").click(function() {
       var publicId = $(this).find("input.public-id").val();
-      console.log(publicId);
       window.location.href = SITE_URL + "/?page=notes&project=" + projectId + "&note=" + publicId;
     });
 
@@ -18,6 +17,7 @@
     $(".new-action").keypress(function(e) {
       var key = e.which;
       var project = $("#project").val();
+      var input = $(this);
       if (key == 13) {
         // save the new action to the inbox...
         var name = $(this).val();
@@ -30,15 +30,18 @@
             },
             function(data) {
               // clear the new action from the input and display it in the action list
-              $(this).val('');
-              console.log(data);
               row.append('<tr><td><input type="checkbox" name="" value="1"> ' + data.item + '</td><td>&nbsp;</td>');
-
+              input.val('');
+              $(':focus').blur();
             },
             "json"
         );
       }
     });
+
+    // $(".new-action").blur(function() {
+    //   $(this).val('');
+    // });
 
     // mark the action item complete
     $(".action-checkbox").click(function() {
@@ -54,6 +57,33 @@
         }
       );
     });
+
+    $(".estimate-amount input").blur(function() {
+      var amount = $(this).val();
+      var estimateId = $(this).next('input[type="hidden"][name="estimate_id"]').val();
+      var estimateItemId = $(this).parent().children().last().val();
+      $.post(SITE_URL, {
+        page: "estimates",
+        action: "saveEstimateAmount",
+        project_id: projectId,
+        estimate_id: estimateId,
+        estimate_item_id: estimateItemId,
+        amount: amount
+      }, function (data) {
+
+      });
+    });
+
+    $(".estimate-item-amount").autoNumeric('init');
+
+
+    $(".row").on("dragStart", function(e){
+      e.originalEvent.dataTransfer.setData("Text", e.target.id);
+    });
+
+
+
+  // jquery close
   });
 </script>
 
@@ -61,7 +91,7 @@
 
 <div id="sidebar">
   <div class="project-module">
-    <h3><a href="{$SITE_URL}/?page=actions&amp;project={$project->public_id}">Project Actions</a></h3>
+    <a href="{$SITE_URL}/?page=actions&amp;project={$project->public_id}"><h3>Project Actions</h3></a>
     <input type="hidden" name="project" id="project" value="{$project->public_id}">
     <table>
       <tr>
@@ -70,19 +100,19 @@
       {foreach from=$actions item=action}
       <tr>
         <td width="80%"><input type="checkbox" class="action-checkbox" name="" value="{$action->public_id}"> {$action->item}</td>
-        <td>{$action->date_due|date_format:"%m.%d"}</td>
+        <td>{$action->date_due|date_format:"%m/%d/%y"}</td>
       </tr>
       {/foreach}
     </table>
   </div>
   <div class="project-module">
-    <h3>Project Notes</h3>
-    <table>
+    <a href="{$SITE_URL}/?page=notes&amp;project={$project->public_id}"><h3>Project Notes</h3></a>
+    <table class="project-module-table">
       {foreach from=$notes item=note}
       <tr class="clickable-row">
         <td>
             <input type="hidden" class="public-id" name="note_id" value="{$note->public_id}">
-            {$note->datetime_modified|date_format:"%D"}
+            {$note->datetime_modified|date_format:"%m/%d/%y"}
         </td>
         <td>{$note->content|truncate:32:"..."}</td>
       </tr>
@@ -129,6 +159,36 @@
     </table>
   </div>
   <div id="project-estimate">
-    <h2 class="title">Project Estimate</h2>
+    <form action="{$SITE_URL}" method="post" name="project_estimate">
+      <input type="hidden" name="page" value="estimates">
+      <input type="hidden" name="action" value="main">
+      <input type="hidden" name="path" value="{$currentUrl}">
+      
+      <table id="estimate" class="project-page">
+      {foreach from=$estimateItems key=category item=item}
+        <tr>
+          <th colspan="5" class="category"><input type="text" value="{$category}"></th>
+        </tr>
+        {foreach from=$item item=i}
+        <tr class="row" draggable="true">
+          <td style="width:10px">&nbsp;</td>
+          <td class="estimate-item"><input class="ei" type="text" value="{$i->estimate_item}"></td>
+          {if $i->bid_filename != ""}
+          <td class="bid"><a href="{$SITE_URL}/{$project->public_id}/bids/{$i->bid_filename}" target="_blank"><img src="{$IMAGES}/file_pdf.png" alt=""></a></td>
+          {else}
+          <td class="bid">&nbsp;</td>
+          {/if}
+          <td class="estimate-amount">
+            $<input type="text" class="estimate-item-amount" value="{$i->amount}">
+            <input type="hidden" name="estimate_id" value="{$i->estimate_id}">
+            <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
+          </td>
+        </tr>
+        {/foreach}
+
+      {/foreach}
+      </table>
+    </form>
+
   </div>
 </div>

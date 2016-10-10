@@ -258,11 +258,11 @@ class Authentication extends Singleton {
 		$user = $obj->fetchById($this->record->id);
 
 		// check if returned user matches password
-		$version =  phpversion();
+		// $version =  phpversion();
 		// if (strstr($version, '5.4')) {
 			if (hash("md5", $password) == $user->password) {
 				$this->writeToSession();
-				$user->save();
+				//$user->save();
 				return true;
 			}
 		// } else {
