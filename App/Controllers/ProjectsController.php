@@ -64,7 +64,6 @@ class ProjectsController extends AppController {
 		foreach ($estimateItems as $item) {
 			$itemsArray[$item->category][] = $item;
 		}
-
 		smarty()->assign('project', $project);
 		smarty()->assign('estimateItems', $itemsArray);
 

@@ -604,7 +604,7 @@ nav ul li ul li:last-child {
 
 table#estimate {
 	width: auto;
-	max-width: 80%;
+	max-width: 100%;
 	min-width: 50%;
 	margin: 0 auto;
 }
@@ -634,9 +634,19 @@ table#estimate td.expand-item {
 	padding: 2px 0 0 0;
 }
 
+table#estimate tr.row td {
+	border-bottom: 1px dotted #e8e8e8;
+	font-size: 12px;
+}
+
+table#estimate tr.project-total td {
+	font-weight: bold;
+	padding-top: 10px;
+	font-size: 16px;
+}
+
 table#estimate td.estimate-item {
 	padding-left: 15px;
-	border-bottom: 1px dotted #e8e8e8;
 	width: 150px !important;
 	max-width: auto;
 }

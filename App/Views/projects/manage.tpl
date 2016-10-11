@@ -2,6 +2,22 @@
   $(document).ready(function() {
 
     var projectId = $("#project").val();
+    var margin = {$project->margin};
+    var contingency = {$project->contingency};
+    var totalCost = null;
+    var projectMargin = null;
+    var projectContingency = null;
+
+
+
+
+    // $(".estimate-item-amount").each(function() {
+    //   totalCost += Number($(this).val()).toFixed(2);
+    //   projectMargin = Number(totalCost * margin).toFixed(2);
+    //   projectContingency = Number(totalCost * contingency).toFixed(2);
+    // });
+
+
 
     $(".calendar-day").dblclick(function() {
       // use this to add new calendar events
@@ -57,6 +73,17 @@
         }
       );
     });
+
+    $(".estimate-item input").blur(function() {
+      var estimateItemId = $(this).next('input[type="hidden"][name="estimate_item_id"]').val();
+      $.post(SITE_URL, {
+        page: "estimates",
+        action: "saveEstimateItem",
+        estimate_item_id: estimateItemId,
+        name: $(this).val()
+      });
+    });
+
 
     $(".estimate-amount input").blur(function() {
       var amount = $(this).val();
@@ -167,12 +194,15 @@
       <table id="estimate" class="project-page">
       {foreach from=$estimateItems key=category item=item}
         <tr>
-          <th colspan="5" class="category"><input type="text" value="{$category}"></th>
+          <th colspan="4" class="category"><input type="text" value="{$category}"></th>
         </tr>
         {foreach from=$item item=i}
         <tr class="row" draggable="true">
-          <td style="width:10px">&nbsp;</td>
-          <td class="estimate-item"><input class="ei" type="text" value="{$i->estimate_item}"></td>
+          <td style="width:5px">&nbsp;</td>
+          <td class="estimate-item">
+            <input class="ei" type="text" value="{$i->estimate_item}">
+            <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
+          </td>
           {if $i->bid_filename != ""}
           <td class="bid"><a href="{$SITE_URL}/{$project->public_id}/bids/{$i->bid_filename}" target="_blank"><img src="{$IMAGES}/file_pdf.png" alt=""></a></td>
           {else}
@@ -187,6 +217,22 @@
         {/foreach}
 
       {/foreach}
+        <tr class="row">
+          <td></td>
+          <td>Contingency</td>
+          <td></td>
+          <td id="contingency" class="text-right"></td>
+        </tr>
+        <tr class="row">
+          <td></td>
+          <td>Profit Margin</td>
+          <td></td>
+          <td id="profit-margin" class="text-right"></td>
+        </tr>
+        <tr class="project-total">
+          <td colspan="3">Total</td>
+          <td id="project-total"></td>
+        </tr>
       </table>
     </form>
 

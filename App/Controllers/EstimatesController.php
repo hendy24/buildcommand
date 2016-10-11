@@ -47,8 +47,19 @@ class EstimatesController extends AppController {
 		$estimate->project = $project->id;
 		$estimate->estimate_item = input()->estimate_item_id;
 		$estimate->amount = $amount;
-		
+
 		if ($estimate->save()) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public function saveEstimateItem() {
+		$estimate_item = $this->load('EstimateItem', input()->estimate_item_id);
+		$estimate_item->name = input()->name;
+		if ($estimate_item->save()) {
 			return true;
 		}
 
