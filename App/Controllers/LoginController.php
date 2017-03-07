@@ -3,7 +3,7 @@
 class LoginController extends AppController {
 
 	public function login() {
-		smarty()->assign('title', "Login");
+		$this->redirect(array('page' => 'Site', 'action' => 'index'));
 	}
 
 

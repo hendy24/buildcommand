@@ -6,7 +6,7 @@ class AppController extends MainController {
 		if (auth()->isLoggedIn()) {
 			smarty()->assignByRef('companyProjects', $this->loadModel('Project')->fetchProjects());
 			smarty()->assignByRef('user', $this->loadModel('User', auth()->getRecord()->id));
-			smarty()->assignByRef('company', $this->loadModel('Company', auth()->getRecord()->company_id));
+			smarty()->assignByRef('company', $this->loadModel('Company', auth()->getRecord()->company));
 
 
 			if (file_exists(APP_DIR . DS . 'Webroot' . DS . 'images' . DS . 'logo.png')) {

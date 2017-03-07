@@ -2,6 +2,7 @@
 
 class MainModel {
 
+	protected $prefix = false;
 
 	public function generate($id = null, $class = null) {
 		if ($id == null) {
@@ -307,8 +308,8 @@ class MainModel {
 
 	public function loadTable($name = false, $id = false) {
 		if ($name) {
-			if (file_exists (APP_PROTECTED_DIR . DS . 'Models' . DS . $name . '.php')) {
-				require_once (APP_PROTECTED_DIR . DS . 'Models' . DS . $name . '.php');
+			if (file_exists (APTITUDE_CORE . DS . 'Models' . DS . $name . '.php')) {
+				require_once (APTITUDE_CORE . DS . 'Models' . DS . $name . '.php');
 			}
 
 			if (class_exists($name)) {

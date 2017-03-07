@@ -1,6 +1,47 @@
 <script>
   $(document).ready(function() {
 
+    // fetch calendar events
+    function fetchEvents() {
+        $.get(SITE_URL, {
+          page: "schedules",
+          action: "findEvents",
+          project_id: {$project->id}
+        }, function(data) {
+          events = data;
+        }, "json"
+      );
+
+      return events;
+
+    };
+    
+
+    $("#calendar").fullCalendar({
+      dayClick: function() {
+
+      },
+      theme: true,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listMonth'
+      },
+      navLinks: true,
+      editable: true,
+      eventLimit: true,
+      displayEventTime: false,
+      events: function() {
+        console.log(fetchEvents());
+      }
+    });
+
+    // $(".new-cal-event").hide();
+
+    // $(document).click(function() {
+    //   $(".new-cal-event").hide();
+    // });
+
     var projectId = $("#project").val();
     var margin = {$project->margin};
     var contingency = {$project->contingency};
@@ -8,21 +49,32 @@
     var projectMargin = null;
     var projectContingency = null;
 
+    var calculateCosts = function() {
+      $(".estimate-item-amount").each(function() {
+        totalCost += Number($(this).val());
+      });
+
+      $("#total").html(parseInt(totalCost, 10));
+      $("#margin").html(parseInt(totalCost * margin, 10));
+      $("#contingency").html(parseInt(totalCost * contingency, 10));
+    };
 
 
-
-    // $(".estimate-item-amount").each(function() {
-    //   totalCost += Number($(this).val()).toFixed(2);
-    //   projectMargin = Number(totalCost * margin).toFixed(2);
-    //   projectContingency = Number(totalCost * contingency).toFixed(2);
-    // });
+    // calculate the contingency, profit margin, and total cost on page load
+    calculateCosts();
 
 
-
-    $(".calendar-day").dblclick(function() {
-      // use this to add new calendar events
-
+    // hidden right click menu
+    $(".row").contextmenu(function(e) {
+      e.preventDefault();
+      $(".context-menu", this).addClass("context-menu--active");
     });
+
+
+    // $(".calendar-day").dblclick(function() {
+    //   // use this to add new calendar events
+    //   $(".new-cal-event").show();
+    // });
 
     $(".clickable-row").click(function() {
       var publicId = $(this).find("input.public-id").val();
@@ -97,12 +149,12 @@
         estimate_item_id: estimateItemId,
         amount: amount
       }, function (data) {
-
+        calculateCosts()
       });
     });
 
     $(".estimate-item-amount").autoNumeric('init');
-
+    $(".project-calc").autoNumeric('init');
 
     $(".row").on("dragStart", function(e){
       e.originalEvent.dataTransfer.setData("Text", e.target.id);
@@ -161,7 +213,11 @@
 </div>
 
 <div id="main-page-right">
-  <div id="project-calendar">
+
+  <!--****** Calendar **********************************-->
+  <div id="calendar"></div>
+
+{*   <div id="project-calendar">
     <h2 class="text-center"><a href="{$SITE_URL}/?page=projects&amp;action=manage&amp;id={$project->public_id}&amp;month={$smarty.now|date_format:'%B'}">{$calendar->month} {$calendar->year}</a></h2>
     <div class="clear"></div>
     <div class="float-left"><a href="{$SITE_URL}/?page=projects&amp;action=manage&amp;id={$project->public_id}&amp;month={$calendar->last_month}">&laquo;Last Month</a></div>
@@ -179,12 +235,27 @@
       {foreach from=$calendar->dates item=week}
       <tr class="calendar-row">
         {foreach from=$week item=day}
-          <td class="calendar-day"><div class="day-number">{$day}</div></td>
+          <div class="day">
+            <td class="calendar-day"><div class="day-number">{$day}</div></td>
+
+            <!-- Add new event to the calendar -->
+            <div class="new-cal-event">
+              Name: <input type="text"> <br>
+              Date Start: <br>
+              Date End: <br>
+            </div>
+
+          </div>
+
         {/foreach}
       </tr>
       {/foreach}
     </table>
   </div>
+ *}
+
+
+  <!--****** Project Estimate *********************************-->
   <div id="project-estimate">
     <form action="{$SITE_URL}" method="post" name="project_estimate">
       <input type="hidden" name="page" value="estimates">
@@ -196,24 +267,38 @@
         <tr>
           <th colspan="4" class="category"><input type="text" value="{$category}"></th>
         </tr>
+
+
         {foreach from=$item item=i}
-        <tr class="row" draggable="true">
-          <td style="width:5px">&nbsp;</td>
-          <td class="estimate-item">
-            <input class="ei" type="text" value="{$i->estimate_item}">
-            <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
-          </td>
-          {if $i->bid_filename != ""}
-          <td class="bid"><a href="{$SITE_URL}/{$project->public_id}/bids/{$i->bid_filename}" target="_blank"><img src="{$IMAGES}/file_pdf.png" alt=""></a></td>
-          {else}
-          <td class="bid">&nbsp;</td>
-          {/if}
-          <td class="estimate-amount">
-            $<input type="text" class="estimate-item-amount" value="{$i->amount}">
-            <input type="hidden" name="estimate_id" value="{$i->estimate_id}">
-            <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
-          </td>
-        </tr>
+          <tr class="row" draggable="true">
+            <td style="width:5px">&nbsp;</td>
+            <td class="estimate-item">
+              <input class="ei" type="text" value="{$i->estimate_item}">
+              <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
+            </td>
+            {if $i->bid_filename != ""}
+            <td class="bid"><a href="{$SITE_URL}/{$project->public_id}/bids/{$i->bid_filename}" target="_blank"><img src="{$IMAGES}/file_pdf.png" alt=""></a></td>
+            {else}
+            <td class="bid">&nbsp;</td>
+            {/if}
+            <td class="estimate-amount">
+              <input type="text" class="estimate-item-amount" value="{$i->amount|default:"0.00"}">
+              <input type="hidden" name="estimate_id" value="{$i->estimate_id}">
+              <input type="hidden" name="estimate_item_id" value="{$i->estimate_item_id}">
+            </td>
+          </tr>
+
+          <!--** Hidden right click menu *************************************************************-->
+          <nav class="context-menu">
+            <ul class="context-menu_items">
+              <li class="context-menu_item">
+                <a href="#" class="context-menu_link">
+                  <i class="fa fa-edit"></i> Edit Item Name
+                </a>
+              </li>
+            </ul>
+          </nav>
+
         {/foreach}
 
       {/foreach}
@@ -221,17 +306,17 @@
           <td></td>
           <td>Contingency</td>
           <td></td>
-          <td id="contingency" class="text-right"></td>
+          <td class="text-right"><div id="contingency" class="project-calc"></div></td>
         </tr>
         <tr class="row">
           <td></td>
           <td>Profit Margin</td>
           <td></td>
-          <td id="profit-margin" class="text-right"></td>
+          <td class="text-right"><div id="margin" class="project-calc"></div></td>
         </tr>
         <tr class="project-total">
           <td colspan="3">Total</td>
-          <td id="project-total"></td>
+          <td id="total-cost" class="text-right"><div id="total" class="project-calc"></div></td>
         </tr>
       </table>
     </form>

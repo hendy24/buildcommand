@@ -1,0 +1,42 @@
+/*
+ *
+ *	General use classes
+ *
+*/
+
+.text-8 { font-size: 8px; }
+.text-9 { font-size: 9px; }
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-17 { font-size: 17px; }
+.text-18 { font-size: 18px; }
+.text-19 { font-size: 19px; }
+.text-20 { font-size: 20px; }
+.text-22 { font-size: 22px; }
+.text-28 { font-size: 28px; }
+.text-32 { font-size: 32px; }
+.text-black, a.text-black { color: #000000; }
+.text-white, a.text-white { color: #ffffff; }
+.text-red { color: #f74a4a; }
+.text-grey, a.text-grey { color: #999999; }
+.text-blue, a.text-blue { color: #4c81b3; }
+.text-orange, a.text-orange { color: #ec9236; }
+.text-green, a.text-green { color: #91c844; }
+.text-black, a.text-black { color: #333; }
+.bold { font-weight: bold; }
+.italics { font-style: italic; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.center { margin: auto; }
+.align-left { margin: 0px 15px 15px 0px; }
+.align-right { margin: 0px 0px 15px 15px; }
+.float-right { float: right; }
+.float-left { float: left; }
+.align-top { vertical-align: top; }
+.clear { clear: both; }

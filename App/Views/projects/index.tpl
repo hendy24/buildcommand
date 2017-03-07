@@ -87,34 +87,26 @@
 	});
 </script>
 <div id="manage-projects">
-	<h1>{$company->name}</h1>
-
 	<div class="button-left">
-		<a href="{$SITE_URL}/?page=projects&amp;action=add" class="button">New Project</a>
-	</div>
-	<div class="button-right">
-		<select name="project_status" id="project-status">
-			<option value="all">All</option>
-			<option value="pending">Pending</option>
-			<option value="active">Active</option>
-		</select>
+		<a href="{$SITE_URL}/?page=projects&amp;action=add" class="btn btn-primary float-left">New Project</a>
 	</div>
 
+	<div class="clear"></div>
 	<table id="overview">
 		<tr class="column-names">
-			<td style="width: 250px">Project Name</td>
-			<td>Class</td>
-			<td>Type</td>
-			<td>Pipeline</td>
-			<td style="width: 25px">&nbsp;</td>
+			<th style="width: 250px">Project Name</td>
+			<th>Class</td>
+			<th>Type</td>
+			<th>Pipeline</td>
+			<th style="width: 25px">&nbsp;</td>
 		</tr>
 		{foreach $projects as $p}
 		<tr>
 			<td><a href="/?page=projects&amp;action=manage&amp;id={$p->public_id}">{$p->name}</a></td>
-			<td>{$p->class}</td>
-			<td>{$p->type}</td>
+			<td></td>
+			<td></td>
 			<td>&nbsp;</td>
-			<td>{$toolMenu->options($p)}</td>
+			<td>{* {$toolMenu->options($p)} *}</td>
 		</tr>
 		{/foreach}
 	</table>

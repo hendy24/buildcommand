@@ -29,10 +29,6 @@ div#nav ul li {
 	background: -o-linear-gradient(#4c81b3, #0b5087);
 	background: -ms-linear-gradient(#4c81b3, #0b5087);
 	background: linear-gradient(#4c81b3, #0b5087);
-	border-top-left-radius: 3px;
-	-moz-border-radius-topleft: 3px;
-	border-top-right-radius: 3px;
-	-moz-border-radius-topright: 3px;
 	border: none;
 	outline: none;
 	font-weight: normal;
@@ -47,10 +43,6 @@ div#nav ul li:hover {
 	background: -o-linear-gradient(#f4c18e, #ec9236);
 	background: -ms-linear-gradient(#f4c18e, #ec9236);
 	background: linear-gradient(#f4c18e, #ec9236);
-	border-top-left-radius: 3px;
-	-moz-border-radius-topleft: 3px;
-	border-top-right-radius: 3px;
-	-moz-border-radius-topright: 3px;
 }
 
 div#nav ul li a {
@@ -99,10 +91,6 @@ div#nav li:hover ul {
 	margin: 4px 0;
 	padding: 5px 10px 0px 10px;
 	background-color: #fff;
-	border-bottom-left-radius: 4px;
-	-moz-border-radius-bottomleft: 4px;
-	border-bottom-right-radius: 4px;
-	-moz-border-radius-bottomright: 4px;
 	box-shadow: 15px 15px 10px 2px rgba(0,0,0,.5);
 	border-left: 1px solid #333;
 	border-right: 1px solid #333;

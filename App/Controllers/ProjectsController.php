@@ -16,6 +16,7 @@ class ProjectsController extends AppController {
 		$company = $this->load('Company')->fetchCompany();
 		$projects = $this->load('Project')->fetchProjects();
 
+
 		smarty()->assignByRef('company', $company);
 		smarty()->assignByRef('projects', $projects);
 		$this->title = $company->name;
